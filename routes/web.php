@@ -105,5 +105,8 @@ Route::get('/admin/product', function () {
 Route::get('/admin/purchase', function () {
     return view('admin.main.purchase.purchase-list');
 });
-
+##### hh ############
+Route::get('/admin/hh', function () {
+    return view('admin.main.purchase.purchase-list');
+});
 
