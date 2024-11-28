@@ -14,18 +14,23 @@
                                     <div id="lg1" class="tab-pane active">
                                         <div class="login-form-container">
                                             <div class="login-form">
-                                                <form action="#" method="post">
-                                                    <input type="text" name="email" placeholder="Email">
-                                                    <input type="password" name="user-password" placeholder="Password">
+                                                <form action="{{ route('login') }}" method="POST">
+                                                    @csrf
+                                                    <input type="email" name="email" placeholder="Email">
+                                                    <input type="password" name="password" placeholder="Password">
                                                     <div class="button-box">
                                                         <div class="login-toggle-btn">
                                                             <input type="checkbox">
                                                             <label>Remember me</label>
-                                                            <a href="#">Quên mật khẩu?</a>
+                                                            <a href="/quen-mat-khau">Quên mật khẩu?</a>
                                                         </div>
-                                                        <button type="submit" class="btn-style cr-btn"><span>Đăng nhập</span></button>
+                                                        <button type="submit" class="btn-style cr-btn"><span>Đăng nhập cc</span></button>
                                                     </div>
                                                 </form>
+                                                <div style="margin-top: 1.5rem">
+                                                    <label>Chưa có tài khoản?</label><span> </span><a href="{{ route('register') }}" style="color: #FFA500; text-decoration: none;">Đăng ký ngay</a>
+                                                </div>
+                                                
                                             </div>
                                         </div>
                                     </div>

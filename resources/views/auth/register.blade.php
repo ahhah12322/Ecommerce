@@ -13,12 +13,14 @@
                                     <div id="lg1" class="tab-pane active">
                                         <div class="login-form-container">
                                             <div class="login-form">
-                                                <form action="#" method="post">
-                                                    <input type="text" name="user-name" placeholder="Username">
-                                                    <input type="password" name="user-password" placeholder="Password">
-                                                    <input name="user-email" placeholder="Email" type="email">
+                                                <form action="{{ route('register')}}" method="POST">
+                                                    @csrf
+                                                    <input type="text" name="name" placeholder="Username">
+                                                    <input name="email" placeholder="Email" type="email">
+                                                    <input type="password" name="password" placeholder="Password">
+                                                    <input type="password" name="password_confirmation" placeholder="password_confirmation">
                                                     <div class="button-box">
-                                                        <button type="submit" class="btn-style cr-btn"><span>Đăng ký</span></button>
+                                                        <button type="submit" class="btn-style cr-btn">Đăng ký</button>
                                                     </div>
                                                 </form>
                                             </div>
