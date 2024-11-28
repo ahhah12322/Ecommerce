@@ -1,11 +1,11 @@
 <?php
-
+use App\Http\Controllers\VehicleController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Route;
 
 //User
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', [MainController::class, 'index']);
 ##### Đăng nhạp user ############
 Route::get('/dang-nhap', function () {
     return view('auth.login');
@@ -27,9 +27,8 @@ Route::get('/lien-he', function () {
 //     return view('user.about-us');
 // });\
 ##### Chi tiết xe ############
-Route::get('/san-pham', function () {
-    return view('user.main.product-details');
-});
+Route::get('chi-tiet/{id}', [VehicleController::class, 'show']);
+
 Route::get('/san-pham-1', function () {
     return view('user.main.product-details-fixed-img');
 });
@@ -50,13 +49,16 @@ Route::get('/quen-mat-khau', function () {
     return view('user.main.forgot-password');
 });
 ##### Cửa hàng ############
-Route::get('/shop', function () {
-    return view('user.main.shop');
-});
+Route::get('/shop', [VehicleController::class, 'index'])->name('vehicle.shop');
+Route::get('/shop/{brandName}', [VehicleController::class, 'filterByBrand'])->name('vehicles.filterByBrand');
+Route::get('/shop/location/{location}', [VehicleController::class, 'filterByLocation']);
+
+Route::get('/shop/tim-kiem', [VehicleController::class, 'search1'])->name('search1');
+
+Route::get('/shop/sap-xep', [VehicleController::class, 'SapXep'])->name('vehicles.sort');
+
 ##### tìm kiếm ############
-Route::get('/tim-kiem', function () {
-    return view('user.main.search');
-});
+Route::get('/tim-xe', [VehicleController::class, 'search'])->name('vehicle.search');
 ##### thông tin tài khoản ############
 Route::get('/tai-khoan', function () {
     return view('user.main.account');
@@ -70,9 +72,12 @@ Route::get('/doi-mat-khau', function () {
  return view('user.main.change-password');
 });
 ##### giỏ hàng ############
-Route::get('/gio-hang', function () {
- return view('user.main.cart');
-});
+// Route thêm sản phẩm vào giỏ hàng
+Route::post('/add-yeu-thich', [CartController::class, 'addToCart']);
+Route::get('/yeu-thich', [CartController::class, 'showCart'])->name('cart.show');
+Route::post('/yeu-thich/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
+
+
 ##### giỏ hàng ############
 Route::get('/fogot', function () {
  return view('user.main.forgot-password');

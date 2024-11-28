@@ -106,9 +106,6 @@
                 <div class="row">
                     <div class="col-md-8">
                         <div class="product-details-content">
-
-
-
                             <div class="row">
                                 <div class="col-md-6">
                                     <img width="100%" src="assets/Frontend/img/product/honda-future.png" alt="">

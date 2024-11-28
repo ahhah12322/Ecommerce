@@ -37,7 +37,7 @@
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-4">
                             <div class="logo-small-device">
-                                <a href="index.html"><img alt="" src="assets/Frontend/img/logo/megologo.png"></a>
+                                <a href="/"><img alt="" src="assets/Frontend/img/logo/megologo.png"></a>
                             </div>
                         </div>
                         <div class="col-lg-8 col-md-8 col-8">
@@ -48,26 +48,32 @@
                                 <div class="menu-wrapper text-center">
                                     <button class="menu-toggle">
                                         <img class="s-open" alt="" src="assets/Frontend/img/icon-img/menu.png">
-                                        <img class="s-close" alt="" src="assets/Frontend/img/icon-img/menu-close.png">
+                                        <img class="s-close" alt=""
+                                            src="assets/Frontend/img/icon-img/menu-close.png">
                                     </button>
                                     <div class="main-menu">
                                         <nav>
                                             <ul>
-                                                <li><a href="">Trang chủ</a></li>
-                                                <li class="active"><a href="">Giới thiệu</a></li>
+                                                <li><a href="/">Trang chủ</a></li>
+                                                <li class="active"><a href="gioi-thieu">Giới thiệu</a></li>
                                                 <li><a href="">Hãng xe</a>
                                                     <ul>
-                                                        <li><a href="">Hà Nội</a></li>
-                                                        <li><a href="">Sài Gòn</a></li>
+                                                        {{-- @foreach ($brands as $brand)
+                                                            <li><a
+                                                                    href="/shop/{{ $brand->BrandName }}">{{ $brand->BrandName }}</a>
+                                                            </li>
+                                                        @endforeach --}}
                                                     </ul>
                                                 </li>
                                                 <li><a href="">Địa điểm thuê xe</a>
                                                     <ul>
-                                                        <li><a href="">Hà Nội</a></li>
-                                                        <li><a href="">Sài Gòn</a></li>
+                                                        <li><a href="/shop/location/Hà%20Nội">Hà Nội</a></li>
+                                                        <li><a href="/shop/location/Hồ%20Chí%20Minh">Hồ Chí Minh</a>
+                                                        </li>
+                                                        <li><a href="/shop/location/Đà%20Nẵng">Đà Nẵng</a></li>
                                                     </ul>
                                                 </li>
-                                                <li><a href="">Liên hệ</a></li>
+                                                <li><a href="/lien-he">Liên hệ</a></li>
                                             </ul>
                                         </nav>
                                     </div>
@@ -80,8 +86,8 @@
                 <div class="header-cart-wrapper">
                     <div class="header-cart">
                         <button class="icon-cart">
-                            <i class="ti-shopping-cart"></i>
-                            <span class="count-style">02</span>
+                            <a href="/yeu-thich"> <i class="ti-shopping-cart"></i>
+                                <span class="count-style">{{ $cartCount }}</span></a>
 
                             <i style="margin-left: 30px;" class="ti-user"></i>
                         </button>
