@@ -103,38 +103,51 @@
         <div class="checkout-area pt-130 pb-100">
             <div class="container">
                 <div class="row">
-                 @include('user.app.sidebar-account')
+                    @include('user.app.sidebar-account', ['user' => Auth::user()])
                     <div class="col-md-8">
                         <div class="product-details-content">
-                            <form action="#">
+                            @if (session('success'))
+                                <p style="color: green;">{{ session('success') }}</p>
+                            @endif
+
+                            @if ($errors->any())
+                                <ul style="color: red;">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            @endif
+
+                            <form action="{{ route('user.update') }}" method="POST">
+                                @csrf
                                 <div class="checkbox-form">
                                     <h3>Thay đổi thông tin</h3>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="checkout-form-list">
                                                 <label>Name <span class="required">*</span></label>
-                                                <input type="text" placeholder="" />
+                                                <input type="text" name="name" value="{{ old('name', Auth::user()->name) }}" required />
                                             </div>
                                             <div class="checkout-form-list">
                                                 <label>Email <span class="required">*</span></label>
-                                                <input type="text" placeholder="" />
+                                                <input type="email" name="email" value="{{ old('email', Auth::user()->email) }}" required />
                                             </div>
                                             <div class="checkout-form-list">
                                                 <label>Địa chỉ <span class="required">*</span></label>
-                                                <input type="text" placeholder="" />
+                                                <input type="text" name="address" value="{{ old('address', Auth::user()->address) }}" required />
                                             </div>
                                             <div class="checkout-form-list">
                                                 <label>Số điện thoại <span class="required">*</span></label>
-                                                <input type="text" placeholder="" />
+                                                <input type="text" name="phone" value="{{ old('phone', Auth::user()->phone) }}" required />
                                             </div>
                                             <div class="button-box text-center">
-                                                    <button type="submit" class="btn-style cr-btn"><span>Cập nhật</span></button>
-                                                </div>
+                                                <button type="submit" class="btn-style cr-btn"><span>Cập nhật</span></button>
+                                            </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </form>
+                            
                         </div>
 
                     </div>

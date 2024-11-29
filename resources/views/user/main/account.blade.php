@@ -74,21 +74,26 @@
         <div class="checkout-area pt-130 pb-100">
             <div class="container">
                 <div class="row">
-                  @include('user.app.sidebar-account')
+                    @include('user.app.sidebar-account', ['user' => Auth::user()])
                     <div class="col-md-8">
                         <div class="product-details-content">
                             <form action="#">
                                 <div class="checkbox-form">
                                     <h3>Thông tin tài khoản</h3>
+
+                                    @if ($user)
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <p>Tên: Nguyễn Văn A</p>
-                                            <p>Email: nguyenvana@gmail.com</p>
-                                            <p>Số điện thoại: 036 363636</p>
-
+                                            <p><strong>Tên:</strong> {{ Auth::user()->name }}</p>
+                                            <p><strong>Email:</strong> {{ Auth::user()->email }}</p>
+                                            <p><strong>Số điện thoại:</strong> {{ Auth::user()->phone ?? 'chưa có' }}</p>
+                                            <p><strong>Địa chỉ:</strong> {{ Auth::user()->address ?? 'chưa có' }}</p>
                                         </div>
 
                                     </div>
+                                    @else
+                                    <p>Bạn chưa đăng nhập.</p>
+                                    @endif
                                 </div>
                             </form>
                         </div>

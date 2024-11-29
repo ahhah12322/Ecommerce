@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 //use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\UserController;
 
 
 //User
@@ -86,18 +88,26 @@ Route::get('/shop/sap-xep', [VehicleController::class, 'SapXep'])->name('vehicle
 ##### tìm kiếm ############
 Route::get('/tim-xe', [VehicleController::class, 'search'])->name('vehicle.search');
 ##### thông tin tài khoản ############
-Route::get('/tai-khoan', function () {
-    return view('user.main.account');
-})->name('account');
+Route::get('/tai-khoan', [AccountController::class, 'index'])->name('account');
 ##### Thay đổi thông tin cá nhân ############
 Route::get('/doi-thong-tin', function () {
     return view('user.main.change');
 })->name('change_infor');
+Route::post('/doi-thong-tin', [UserController::class, 'update'])->name('user.update');
+
+
+
 
 ##### Đổi mật khẩu ############
-Route::get('/doi-mat-khau', function () {
- return view('user.main.change-password');
-})->name('change-password');
+// Route::get('/doi-mat-khau', function () {
+//  return view('user.main.change-password');
+// })->name('change-password');
+
+Route::get('/doi-mat-khau', [UserController::class, 'showChangePasswordForm'])->name('password.change');
+Route::post('/doi-mat-khau', [UserController::class, 'changePassword'])->name('password.update');
+
+Route::post('/user/update-avatar', [UserController::class, 'updateAvatar'])->name('user.update.avatar');
+
 
 ##### giỏ hàng ############
 // Route thêm sản phẩm vào giỏ hàng
