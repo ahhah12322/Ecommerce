@@ -87,7 +87,7 @@ class VehicleController extends Controller
        $brands = Brand::all();
         $types = VehicleType::all();
         $cates = Category::all();
-        return view('user.main.product-details', compact('brands','vehicles','types','cates'));
+        return view('user.main.product-details', compact('brands','vehicle','types','cates'));
     }
 
     /**

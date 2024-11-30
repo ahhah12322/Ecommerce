@@ -22,12 +22,12 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <form action="{{ route('category-add') }}" method="POST" id="category-form">
+                                <form action="{{ route('brand-add') }}" method="POST" id="category-form">
                                     @csrf
                                     <div class="mb-3">
-                                        <label for="category-title" class="form-label">Category Name</label>
+                                        <label for="category-title" class="form-label">Brand Name</label>
                                         <input type="text" id="category-title" class="form-control"
-                                            placeholder="Enter Title" name="CategoryName" required>
+                                            placeholder="Enter Title" name="BrandName" required>
                                     </div>
                                 </form>
                             </div>
@@ -44,7 +44,7 @@
                         </div>
 
                         <div class="col-lg-2">
-                            <a href="{{ route('category-list') }}" class="btn btn-primary w-100">Cancel</a>
+                            <a href="{{ route('brand-list') }}" class="btn btn-primary w-100">Cancel</a>
                         </div>
                     </div>
                 </div>

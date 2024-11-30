@@ -20,10 +20,10 @@
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center gap-1">
-                        <h4 class="card-title flex-grow-1">All Categories List</h4>
+                        <h4 class="card-title flex-grow-1">All Brand List</h4>
 
-                        <a href="{{ route('category-add-form') }}" class="btn btn-sm btn-primary">
-                            Add Categories
+                        <a href="{{ route('brand-add-form') }}" class="btn btn-sm btn-primary">
+                            Add Brand
                         </a>
 
                         <div class="dropdown">
@@ -47,33 +47,33 @@
                                 <thead class="bg-light-subtle">
                                     <tr>
                                         <th>ID</th>
-                                        <th>Categories Name</th>
+                                        <th>Brands Name</th>
                                         <th>Quantity</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($categories as $category)
+                                    @foreach ($brands as $brand)
                                     <tr>
-                                        <td> {{ $category->CategoryID }}</td>
+                                        <td> {{ $brand->BrandID }}</td>
                                         <td>
                                             <div class="d-flex align-items-center gap-2">
 
-                                                <p class="text-dark fw-medium fs-15 mb-0">{{ $category->CategoryName }}
+                                                <p class="text-dark fw-medium fs-15 mb-0">{{ $brand->BrandName }}
                                                 </p>
                                             </div>
 
                                         </td>
-                                        <td >   {{ \App\Models\Vehicle::where('CategoryID', $category->CategoryID)->count() }}</td>
+                                        <td >   {{ \App\Models\Vehicle::where('BrandID', $brand->BrandID)->count() }}</td>
                                         <td>
                                             <div class="d-flex gap-2">
 
-                                                <a href="{{ route('category-edit', $category->CategoryID) }}"
+                                                <a href="{{ route('brand-edit', $brand->BrandID) }}"
                                                     class="btn btn-soft-primary btn-sm">
                                                     <iconify-icon icon="solar:pen-2-broken"
                                                         class="align-middle fs-18"></iconify-icon>
                                                 </a>
-                                                <form action="{{ route('category-delete', $category->CategoryID) }}"
+                                                <form action="{{ route('brand-delete', $brand->BrandID) }}"
                                                     method="POST" style="display: inline-block;">
                                                     @csrf
                                                     <button type="submit" class="btn btn-soft-danger btn-sm"

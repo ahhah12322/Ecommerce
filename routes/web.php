@@ -2,6 +2,8 @@
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\BrandController;
 use Illuminate\Support\Facades\Route;
 //use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\AuthController;
@@ -125,21 +127,25 @@ Route::post('/yeu-thich/remove', [CartController::class, 'removeFromCart'])->nam
 
 
 ///ADMIN
-Route::get('/admin', [AccountController::class, 'index'])->name('admin');
+Route::get('/admin', function () {
+    return view('admin.index');
+})->name('admin');
 ##### Category ############
-Route::get('/admin/category', function () {
-    return view('admin.main.category.category-list');
-})->name('category-list');
+Route::get('/admin/category', [CategoryController::class, 'index'])->name('category-list');
 Route::get('/admin/category/add', function () {
     return view('admin.main.category.category-add');
-})->name('category-add');
-Route::get('/admin/category/edit', function () {
-    return view('admin.main.category.category-edit');
-})->name('category-edit');
+})->name('category-add-form');
+Route::post('/admin/category/add', [CategoryController::class, 'store'])->name('category-add');
+Route::get('/admin/category/edit/{id}', [CategoryController::class, 'edit'])->name('category-edit');
+Route::post('/admin/category/update/{id}', [CategoryController::class, 'update'])->name('category-update');
+Route::post('/admin/category/delete/{id}', [CategoryController::class, 'destroy'])->name('category-delete');
 ##### Sản phẩm ############
 Route::get('/admin/product', function () {
     return view('admin.main.product.product-list');
 })->name('product-list');
+Route::get('/admin/product/add', function () {
+    return view('admin.main.product.product-add');
+})->name('product-add');
 
 
 ##### pucahra ############
