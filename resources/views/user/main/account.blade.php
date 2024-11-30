@@ -88,6 +88,7 @@
                                             <p><strong>Email:</strong> {{ Auth::user()->email }}</p>
                                             <p><strong>Số điện thoại:</strong> {{ Auth::user()->phone ?? 'chưa có' }}</p>
                                             <p><strong>Địa chỉ:</strong> {{ Auth::user()->address ?? 'chưa có' }}</p>
+                                            <p><strong>CCCD:</strong> {{ Auth::user()->CCCD ?? 'chưa có' }}</p>
                                         </div>
 
                                     </div>

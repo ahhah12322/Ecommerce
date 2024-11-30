@@ -35,12 +35,12 @@ class AuthController extends Controller
             if ($user->role === 'admin') {
                 return redirect()->route('admin');
             } else {
-                return redirect()->route('index');
+                return redirect()->route('account');
             }
         }
     
         //return back()->withErrors(['email' => 'Thông tin đăng nhập không đúng.']);
-        return redirect()->route('index');
+        return redirect()->route('login');
     }
 
 

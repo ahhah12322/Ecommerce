@@ -140,6 +140,10 @@
                                                 <label>Số điện thoại <span class="required">*</span></label>
                                                 <input type="text" name="phone" value="{{ old('phone', Auth::user()->phone) }}" required />
                                             </div>
+                                            <div class="checkout-form-list">
+                                                <label>CCCD <span class="required"></span></label>
+                                                <input type="text" name="CCCD" value="{{ old('CCCD', Auth::user()->CCCD) }}" required pattern="\d{11,12}" minlength="11" maxlength="12" title="Vui lòng nhập 11 hoặc 12 chữ số"/>
+                                            </div>
                                             <div class="button-box text-center">
                                                 <button type="submit" class="btn-style cr-btn"><span>Cập nhật</span></button>
                                             </div>

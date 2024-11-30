@@ -176,12 +176,12 @@
                               <div class="dropdown topbar-item">
                                    <a type="button" class="topbar-button" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <span class="d-flex align-items-center">
-                                             <img class="rounded-circle" width="32" src="../../assets/Backend/images/users/avatar-1.jpg" alt="avatar-3">
+                                             <img class="rounded-circle" width="32" src="{{ $user->avatar ? 'data:image/jpeg;base64,' . base64_encode($user->avatar) : 'https://n1-cstg.mioto.vn/m/avatars/h.jpg' }}" alt="avatar-3">
                                         </span>
                                    </a>
                                    <div class="dropdown-menu dropdown-menu-end">
                                         <!-- item-->
-                                        <h6 class="dropdown-header">Welcome Gaston!</h6>
+                                        <h6 class="dropdown-header">Welcome {{ $user->name }}</h6>
                                         <a class="dropdown-item" href="pages-profile.html">
                                              <i class="bx bx-user-circle text-muted fs-18 align-middle me-1"></i><span class="align-middle">Profile</span>
                                         </a>
@@ -201,8 +201,13 @@
 
                                         <div class="dropdown-divider my-1"></div>
 
-                                        <a class="dropdown-item text-danger" href="auth-signin.html">
-                                             <i class="bx bx-log-out fs-18 align-middle me-1"></i><span class="align-middle">Logout</span>
+                                        <a class="dropdown-item text-danger" >
+                                             <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                                                  @csrf
+                                                  {{-- <button type="submit" > --}}
+                                                       <i type="submit" class="bx bx-log-out fs-18 align-middle me-1"></i><span class="align-middle">Logout</span>
+                                                  {{-- </button> --}}
+                                              </form>
                                         </a>
                                    </div>
                               </div>

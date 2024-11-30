@@ -20,14 +20,14 @@
                                    <div class="card overflow-hidden">
                                         <div class="card-body">
                                              <div class="bg-primary profile-bg rounded-top p-5 position-relative mx-n3 mt-n3">
-                                                  <img src="../../assets/Backend/images/users/avatar-2.jpg" alt="" class="avatar-lg border border-light border-3 rounded-circle position-absolute top-100 start-0 translate-middle ms-5">
+                                                  <img src="{{ $customer->avatar ? 'data:image/jpeg;base64,' . base64_encode($customer->avatar) : 'https://n1-cstg.mioto.vn/m/avatars/h.jpg' }}" alt="" class="avatar-lg border border-light border-3 rounded-circle position-absolute top-100 start-0 translate-middle ms-5">
                                              </div>
                                              <div class="mt-4 pt-3">
-                                                  <h4 class="mb-1"> Michael A. Miner<i class="bx bxs-badge-check text-success align-middle"></i></h4>
+                                                  <h4 class="mb-1"> {{ $customer->name }}<i class="bx bxs-badge-check text-success align-middle"></i></h4>
                                                   <div class="mt-2">
-                                                       <a href="#!" class="link-primary fs-15">@michael_cus_2024</a>
-                                                       <p class="fs-15 mb-1 mt-1"><span class="text-dark fw-semibold">Email : </span> michaelaminer@dayrep.com</p>
-                                                       <p class="fs-15 mb-0 mt-1"><span class="text-dark fw-semibold">Phone : </span> +28 (57) 760-010-27</p>
+                                                       <a href="#!" class="link-primary fs-15">@ {{ $customer->name }}</a>
+                                                       <p class="fs-15 mb-1 mt-1"><span class="text-dark fw-semibold">Email : </span> {{ $customer->email }}</p>
+                                                       <p class="fs-15 mb-0 mt-1"><span class="text-dark fw-semibold">Phone : </span> {{ $customer->phone }}</p>
                                                   </div>
                                              </div>
                                         </div>
@@ -56,19 +56,19 @@
                                                                  <td class="px-0">
                                                                       <p class="d-flex mb-0 align-items-center gap-1 fw-semibold text-dark">Account ID : </p>
                                                                  </td>
-                                                                 <td class="text-dark fw-medium px-0">#AC-278699</td>
+                                                                 <td class="text-dark fw-medium px-0">{{ $customer->id }}</td>
                                                             </tr>
                                                             <tr>
                                                                  <td class="px-0">
                                                                       <p class="d-flex mb-0 align-items-center gap-1 fw-semibold text-dark"> Invoice Email : </p>
                                                                  </td>
-                                                                 <td class="text-dark fw-medium px-0">michaelaminer@dayrep.com</td>
+                                                                 <td class="text-dark fw-medium px-0">{{ $customer->email }}</td>
                                                             </tr>
                                                             <tr>
                                                                  <td class="px-0">
                                                                       <p class="d-flex mb-0 align-items-center gap-1 fw-semibold text-dark"> Delivery Address : </p>
                                                                  </td>
-                                                                 <td class="text-dark fw-medium px-0">62, rue des Nations Unies 22000 SAINT-BRIEUC</td>
+                                                                 <td class="text-dark fw-medium px-0">{{ $customer->address }}</td>
                                                             </tr>
                                                             <tr>
                                                                  <td class="px-0">

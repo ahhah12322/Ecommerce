@@ -44,6 +44,7 @@ public function update(Request $request)
         'email' => 'required|email|unique:users,email,' . Auth::id(), // Email phải unique, trừ chính người dùng
         'address' => 'required|string|max:255',
         'phone' => 'required|digits_between:10,15|unique:users,phone,' . Auth::id(),
+        'cccd' => 'required|digits_between:10,12|unique:users,cccd,' . Auth::id(),
     ]);
 
     // Lấy thông tin người dùng hiện tại
@@ -55,6 +56,7 @@ public function update(Request $request)
         'email' => $request->input('email'),
         'address' => $request->input('address'),
         'phone' => $request->input('phone'),
+        'cccd' => $request->input('cccd'),  // Số CC có thể trùng với người dùng khác, nếu trùng s�� bị l��i unique
     ]);
 
     // Trả về view với thông báo
@@ -89,4 +91,21 @@ public function updateAvatar(Request $request)
     // Nếu không có file ảnh
     return back()->with('error', 'Vui lòng chọn ảnh!');
 }
+
+    //admin
+    public function list()
+    {
+        $user = session()->get('user');
+
+        $customers = User::where('role', '!=', 'admin')->get();
+        return view('admin.main.customer.customer-list', compact('customers','user'));
+    }
+
+    public function detail($id)
+    {
+        $user = session()->get('user');
+
+        $customer = User::findOrFail($id);
+        return view('admin.main.customer.customer-detail', compact('customer', 'user'));
+    }
 }

@@ -125,9 +125,7 @@ Route::post('/yeu-thich/remove', [CartController::class, 'removeFromCart'])->nam
 
 
 ///ADMIN
-Route::get('/admin', function () {
-    return view('admin.index');
-})->name('admin');
+Route::get('/admin', [AccountController::class, 'index'])->name('admin');
 ##### Category ############
 Route::get('/admin/category', function () {
     return view('admin.main.category.category-list');
@@ -152,3 +150,6 @@ Route::get('/admin/purchase', function () {
 Route::get('/admin/hh', function () {
     return view('admin.main.purchase.purchase-list');
 });
+
+Route::get('/customer-list', [UserController::class, 'list'])->name('customer.list');
+Route::get('/customer-detail/{id}', [UserController::class, 'detail'])->name('customer.detail');

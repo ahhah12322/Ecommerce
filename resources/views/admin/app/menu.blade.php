@@ -258,10 +258,10 @@
                                    <ul class="nav sub-navbar-nav">
 
                                         <li class="sub-nav-item">
-                                             <a class="sub-nav-link" href="customer-list.html">List</a>
+                                             <a class="sub-nav-link" href="{{ route('customer.list') }}">List</a>
                                         </li>
                                         <li class="sub-nav-item">
-                                             <a class="sub-nav-link" href="customer-detail.html">Details</a>
+                                             <a class="sub-nav-link" href="{{ route('customer.detail', ['id' => 13]) }}">Details</a>
                                         </li>
                                    </ul>
                               </div>

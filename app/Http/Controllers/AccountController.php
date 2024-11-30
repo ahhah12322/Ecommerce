@@ -17,6 +17,11 @@ class AccountController extends Controller
         }
 
         // Trả về view với dữ liệu user
-        return view('user.main.account', compact('user'));
+        if ($user->role == 'admin'){
+            return view('admin.index', compact('user'));
+        }
+        else {
+            return view('user.main.account', compact('user'));
+        }
     }
 }
