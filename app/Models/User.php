@@ -53,4 +53,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function rentalContracts()
+    {
+        return $this->hasMany(RentalContract::class, 'ProvinceID');
+    }
 }

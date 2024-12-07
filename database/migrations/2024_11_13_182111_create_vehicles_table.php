@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('location'); // Địa điểm xe
             $table->integer('battery_capacity'); // Dung lượng pin
             $table->integer('max_range'); // Quãng đường di chuyển tối đa
-            $table->enum('status', ['Sẵn sàng', 'Đang thuê', 'Bảo trì']); // Trạng thái xe
+            $table->enum('status', ['Sẵn sàng', 'Đang thuê', 'Bảo trì'])->default('Sẵn sàng'); // Trạng thái xe
             $table->decimal('rental_price_per_hour', 8, 2); // Giá thuê theo giờ
             $table->decimal('rental_price_per_day', 8, 2); // Giá thuê theo ngày
             $table->timestamps(); // Thời gian tạo và cập nhật

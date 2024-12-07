@@ -113,16 +113,16 @@
                                    <ul class="nav sub-navbar-nav">
 
                                         <li class="sub-nav-item">
-                                             <a class="sub-nav-link" href="orders-list.html">List</a>
+                                             <a class="sub-nav-link" href="{{ Route('orders.list') }}">List</a>
                                         </li>
                                         <li class="sub-nav-item">
-                                             <a class="sub-nav-link" href="order-detail.html">Details</a>
+                                             <a class="sub-nav-link" href="{{ Route('order.detail', ['id' => 1]) }}">Details</a>
                                         </li>
                                         <li class="sub-nav-item">
-                                             <a class="sub-nav-link" href="order-cart.html">Cart</a>
+                                             <a class="sub-nav-link" href="{{ Route('order.cart') }}">Cart</a>
                                         </li>
                                         <li class="sub-nav-item">
-                                             <a class="sub-nav-link" href="order-checkout.html">Check Out</a>
+                                             <a class="sub-nav-link" href="{{ Route('order.checkout') }}">Check Out</a>
                                         </li>
                                    </ul>
                               </div>

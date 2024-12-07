@@ -10,6 +10,9 @@
                                         <h4> Đăng nhập </h4>
                                     </a>
                                 </div>
+                                @if (!empty($value))
+                                    <p>{{ $value }}</p>
+                                @endif
                                 <div class="tab-content">
                                     <div id="lg1" class="tab-pane active">
                                         <div class="login-form-container">

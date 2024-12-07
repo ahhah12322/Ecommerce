@@ -95,17 +95,20 @@ public function updateAvatar(Request $request)
     //admin
     public function list()
     {
-        $user = session()->get('user');
 
         $customers = User::where('role', '!=', 'admin')->get();
-        return view('admin.main.customer.customer-list', compact('customers','user'));
+        return view('admin.main.customer.customer-list', compact('customers'));
     }
 
     public function detail($id)
     {
-        $user = session()->get('user');
-
         $customer = User::findOrFail($id);
-        return view('admin.main.customer.customer-detail', compact('customer', 'user'));
+        return view('admin.main.customer.customer-detail', compact('customer'));
     }
+    
+    // public function listorder()
+    // {
+    //     $user = session()->get('user');
+    //     return view('admin.main.order.order-list', compact('user'));
+    // }
 }

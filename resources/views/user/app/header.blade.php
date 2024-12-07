@@ -55,10 +55,10 @@
                                         <nav>
                                             <ul>
                                                 <li><a href="/">Trang chủ</a></li>
-                                                <li class="active"><a href="gioi-thieu">Giới thiệu</a></li>
-                                                <li><a href="{{ route('login') }}">Trang chủ</a></li>
-                                                <li class="active"><a href="">Giới thiệu</a></li>
-                                                <li><a href="">Hãng xe</a>
+                                                <li class="active"><a href="{{ route('index') }}">Giới thiệu</a></li>
+                                                {{-- <li><a href="{{ route('index') }}">Trang chủ</a></li> --}}
+                                                {{-- <li class="active"><a href="">Giới thiệu</a></li> --}}
+                                                <li><a href="{{ route('vehicle.shop') }}">Hãng xe</a>
                                                     <ul>
                                                         {{-- @foreach ($brands as $brand)
                                                             <li><a

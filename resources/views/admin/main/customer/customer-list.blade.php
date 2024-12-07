@@ -169,7 +169,7 @@
                                                        <td> {{ $customer->CCCD ?? 'chưa nhập' }}</td>
                                                        <td> Mastercard </td>
                                                        <td>
-                                                            <div class="d-flex gap-2">
+                                                            <div class="d-flex gap-2">  
                                                                  <a href="{{ route('customer.detail', $customer->id) }}" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
                                                                  <a href="#!" class="btn btn-soft-primary btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
                                                                  <a href="{{ route('customer.detail', $customer->id) }}" class="btn btn-soft-danger btn-sm"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></a>

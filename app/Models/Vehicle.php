@@ -49,5 +49,10 @@ class Vehicle extends Model
     {
         return $this->belongsTo(VehicleType::class, 'vehicle_type_id'); // Liên kết đến bảng vehicle_types qua vehicle_type_id
     }
+
+    public function rentalContracts()
+    {
+        return $this->hasMany(RentalContract::class, 'ProvinceID');
+    }
 }
 
