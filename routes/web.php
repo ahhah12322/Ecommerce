@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\MainController;
@@ -42,9 +43,6 @@ Route::withoutMiddleware([CheckUserSession::class])->group(function () {
 
     Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
-
-
-    
 });
 
 
@@ -56,7 +54,7 @@ Route::middleware(['checkSession', 'role:user'])->group(function () {
     Route::get('/gioi-thieu', function () {
         return view('user.main.about-us');
     })->name('about-us');
-    
+
     ##### Liên hệ ############
     Route::get('/lien-he', function () {
         return view('user.main.contact');
@@ -89,7 +87,7 @@ Route::middleware(['checkSession', 'role:user'])->group(function () {
     // Route::get('/doi-mat-khau', function () {
     //  return view('user.main.change-password');
     // })->name('change-password');
-    
+
     Route::get('/doi-mat-khau', [UserController::class, 'showChangePasswordForm'])->name('password.change');
     Route::post('/doi-mat-khau', [UserController::class, 'changePassword'])->name('password.update');
 
@@ -100,11 +98,6 @@ Route::middleware(['checkSession', 'role:user'])->group(function () {
     Route::post('/add-yeu-thich', [CartController::class, 'addToCart']);
     Route::get('/yeu-thich', [CartController::class, 'showCart'])->name('cart.show');
     Route::post('/yeu-thich/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
-
-
-
-
-
 });
 
 
@@ -144,77 +137,54 @@ Route::get('/tim-xe', [VehicleController::class, 'search'])->name('vehicle.searc
 
 
 
-Route::middleware(['checkSession', 'role:admin'])->group(function () {
+Route::middleware(['checkSession', 'role:admin'])->group(
+    function () {
 
-    ///ADMIN
-    Route::get('/admin', [AccountController::class, 'index'])->name('admin');
+        ///ADMIN
+        Route::get('/admin', function () {
+            return view('admin.index');
+        })->name('admin');
+        ##### Category ############
+        Route::get('/admin/category', [CategoryController::class, 'index'])->name('category-list');
+        Route::get('/admin/category/add', function () {
+            return view('admin.main.category.category-add');
+        })->name('category-add-form');
+        Route::post('/admin/category/add', [CategoryController::class, 'store'])->name('category-add');
+        Route::get('/admin/category/edit/{id}', [CategoryController::class, 'edit'])->name('category-edit');
+        Route::post('/admin/category/update/{id}', [CategoryController::class, 'update'])->name('category-update');
+        Route::post('/admin/category/delete/{id}', [CategoryController::class, 'destroy'])->name('category-delete');
+        ##### Brand ############
+        Route::get('/admin/brand', [BrandController::class, 'index'])->name('brand-list');
+        Route::get('/admin/brand/add', function () {
+            return view('admin.main.brand.brand-add');
+        })->name('brand-add-form');
+        Route::post('/admin/brand/add', [BrandController::class, 'store'])->name('brand-add');
+        Route::get('/admin/brand/edit/{id}', [BrandController::class, 'edit'])->name('brand-edit');
+        Route::post('/admin/brand/update/{id}', [BrandController::class, 'update'])->name('brand-update');
+        Route::post('/admin/brand/delete/{id}', [BrandController::class, 'destroy'])->name('brand-delete');
+        ##### Sản phẩm ############
+        Route::get('/admin/product', [VehicleController::class, 'index3'])->name('vehical-list');
+        Route::get('/admin/product-grid', [VehicleController::class, 'vehicalgrid'])->name('vehical-grid');
+        Route::post('/get-vehicles', [VehicleController::class, 'getVehicles']);
 
-    // admin 
-    //order
-    Route::get('/admin/order-cart', [RentalContractController::class, 'order_cart'])->name('order.cart');
-    Route::get('/admin/order-checkout', [RentalContractController::class, 'order_checkout'])->name('order.checkout');
-    Route::get('/admin/order-detail/{id}', [RentalContractController::class, 'order_detail'])->name('order.detail');
-    Route::get('/admin/orders-list', [RentalContractController::class, 'orderList'])->name('orders.list');
-
-    Route::get('/customer-list', [UserController::class, 'list'])->name('customer.list');
-    Route::get('/customer-detail/{id}', [UserController::class, 'detail'])->name('customer.detail');
-
-    ##### Category ############
-    Route::get('/admin/category', [CategoryController::class, 'index'])->name('category-list');
-    Route::get('/admin/category/add', function () {
-        return view('admin.main.category.category-add');
-    })->name('category-add-form');
-    Route::post('/admin/category/add', [CategoryController::class, 'store'])->name('category-add');
-    Route::get('/admin/category/edit/{id}', [CategoryController::class, 'edit'])->name('category-edit');
-    Route::post('/admin/category/update/{id}', [CategoryController::class, 'update'])->name('category-update');
-    Route::post('/admin/category/delete/{id}', [CategoryController::class, 'destroy'])->name('category-delete');
-
-
-    
-
-
-
-});
-
-
-// Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-// Route::post('/login', [AuthController::class, 'login']);
-
-// Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-// Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-// Route::post('/register', [AuthController::class, 'register']);
-
-// page error
-Route::get('/error', function () {
-    return view('errors.forbidden');
-})->name('forbidden');
+        Route::get('/admin/product/add', [VehicleController::class, 'index2'])->name('vehical-add1');
+        Route::post('/admin/product/add', [VehicleController::class, 'store'])->name('vehical-add');
+        Route::get('/admin/product/edit/{id}', [VehicleController::class, 'edit'])->name('vehicle.edit');
+        Route::post('/admin/product/update/{id}', [VehicleController::class, 'update'])->name('vehicle.update'); // Xử lý cập nhật
+        Route::post('/admin/product/delete/{id}', [VehicleController::class, 'destroy'])->name('vehicle.delete'); // Xử lý cập nhật
+        Route::get('/vehicles/filter', [VehicleController::class, 'filter'])->name('vehicles.filter');
+        Route::delete('/remove-image/{ImageID}', [VehicleController::class, 'removeImage'])->name('remove.image');
 
 
 
 
-
-
-// ///ADMIN
-// Route::get('/admin', [AccountController::class, 'index'])->name('admin');
-
-##### Sản phẩm ############
-Route::get('/admin/product', function () {
-    return view('admin.main.product.product-list');
-})->name('product-list');
-Route::get('/admin/product/add', action: function () {
-    return view('admin.main.product.product-add');
-})->name('product-add');
-
-
-##### pucahra ############
-Route::get('/admin/purchase', function () {
-    return view('admin.main.purchase.purchase-list');
-})->name('purchase-list');
-##### hh ############
-Route::get('/admin/hh', function () {
-    return view('admin.main.purchase.purchase-list');
-});
-
-
-
+        ##### pucahra ############
+        Route::get('/admin/purchase', function () {
+            return view('admin.main.purchase.purchase-list');
+        })->name('purchase-list');
+        ##### hh ############
+        Route::get('/admin/hh', function () {
+            return view('admin.main.purchase.purchase-list');
+        });
+    }
+);

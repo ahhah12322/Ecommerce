@@ -110,9 +110,17 @@
                             <div class="product-wrapper-bundle">
                                 <div class="product-wrapper">
                                     <div class="product-img">
-                                        <a href="product-details.html">
-                                            <img src="assets/Frontend/img/product/honda-ware-rsx.png" alt="">
+
+                                        <a href="/chi-tiet/{{ $vehicle->id }}">
+                                            @if (isset($vehicleImages[$vehicle->id]['mainImage']))
+                                                <img src="{{ asset($vehicleImages[$vehicle->id]['mainImage']->ImageURL) }}"
+                                                    alt="Main Image" class="img_main">
+                                            @else
+                                                <p>No main image available.</p>
+                                            @endif
                                         </a>
+
+
                                         <div class="product-item-dec">
                                             <ul>
                                                 <li>{{ $vehicle->year_of_manufacture }}</li>
@@ -168,9 +176,13 @@
                             <div class="product-wrapper-bundle">
                                 <div class="product-wrapper mb-30">
                                     <div class="product-img">
-                                        <a href="product-details.html">
-                                            <img src="assets/Frontend/img/product/yamaha-exciter-monster.png"
-                                                alt="">
+                                        <a href="/chi-tiet/{{ $vehicle->id }}">
+                                            @if (isset($vehicleImages[$vehicle->id]['mainImage']))
+                                                <img src="{{ asset($vehicleImages[$vehicle->id]['mainImage']->ImageURL) }}"
+                                                    alt="Main Image">
+                                            @else
+                                                <p>No main image available.</p>
+                                            @endif
                                         </a>
                                         <div class="product-item-dec">
                                             <ul>

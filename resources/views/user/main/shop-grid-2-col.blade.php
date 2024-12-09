@@ -194,32 +194,37 @@
                                             <div class="product-wrapper mb-35">
                                                 <div class="product-img">
                                                     <a href="/chi-tiet/{{ $vehicle->id }}">
-                                                        <img src="/assets/Frontend/img/product/honda-monkey.png"
-                                                            alt="">
+                                                        @if (isset($vehicleImages[$vehicle->id]['mainImage']))
+                                                            <img src="{{ asset($vehicleImages[$vehicle->id]['mainImage']->ImageURL) }}"
+                                                                alt="Main Image">
+                                                        @else
+                                                            <p>No main image available.</p>
+                                                        @endif
                                                     </a>
                                                     <div class="product-item-dec">
-                                            <ul>
-                                                <li>{{ $vehicle->year_of_manufacture }}</li>
-                                                <li>{{ $vehicle->VehicleName }}</li>
-                                                <li>
-                                                    @foreach ($brands as $brand)
-                                                        @if ($vehicle->BrandID == $brand->BrandID)
-                                                            <p>{{ $brand->BrandName }}</p>
-                                                        @endif
-                                                    @endforeach
-                                                </li>
-                                                <li>
-                                                    @foreach ($cates as $cate)
-                                                        @if ($vehicle->CategoryID == $cate->CategoryID)
-                                                            <p>{{ $cate->CategoryName }}</p>
-                                                        @endif
-                                                    @endforeach
-                                                </li>
-                                            </ul>
+                                                        <ul>
+                                                            <li>{{ $vehicle->year_of_manufacture }}</li>
+                                                            <li>{{ $vehicle->VehicleName }}</li>
+                                                            <li>
+                                                                @foreach ($brands as $brand)
+                                                                    @if ($vehicle->BrandID == $brand->BrandID)
+                                                                        <p>{{ $brand->BrandName }}</p>
+                                                                    @endif
+                                                                @endforeach
+                                                            </li>
+                                                            <li>
+                                                                @foreach ($cates as $cate)
+                                                                    @if ($vehicle->CategoryID == $cate->CategoryID)
+                                                                        <p>{{ $cate->CategoryName }}</p>
+                                                                    @endif
+                                                                @endforeach
+                                                            </li>
+                                                        </ul>
                                                     </div>
                                                     <div class="product-action">
                                                         <a class="action-plus-2 p-action-none add-to-cart"
-                                                            title="Wishlist" data-product-id="{{ $vehicle->id }}"
+                                                            title="Wishlist"
+                                                            data-product-id="{{ $vehicle->id }}"
                                                             href="javascript:void(0)">
                                                             <i class="ti-heart"></i>
                                                         </a>

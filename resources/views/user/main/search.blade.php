@@ -195,8 +195,12 @@
                                             <div class="product-wrapper mb-35">
                                                 <div class="product-img">
                                                     <a href="/chi-tiet/{{ $vehicle->id }}">
-                                                        <img src="assets/Frontend/img/product/honda-monkey.png"
-                                                            alt="">
+                                                        @if (isset($vehicleImages[$vehicle->id]['mainImage']))
+                                                            <img src="{{ asset($vehicleImages[$vehicle->id]['mainImage']->ImageURL) }}"
+                                                                alt="Main Image">
+                                                        @else
+                                                            <p>No main image available.</p>
+                                                        @endif
                                                     </a>
                                                     <div class="product-item-dec">
                                                         <ul>

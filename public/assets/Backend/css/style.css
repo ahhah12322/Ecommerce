@@ -1,0 +1,30 @@
+/* Đảm bảo ảnh hiển thị theo hàng và căn chỉnh */
+#additionalImagesPreview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.image-container {
+    position: relative;
+    width: 150px;
+    /* Chiều rộng mỗi ảnh */
+}
+
+.image-container img {
+    width: 100%;
+    /* Đảm bảo ảnh chiếm hết chiều rộng container */
+    border-radius: 8px;
+}
+
+.remove-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    display: none;
+}
+
+.image-container:hover .remove-button {
+    display: block;
+    /* Hiển thị nút Xóa khi hover vào ảnh */
+}

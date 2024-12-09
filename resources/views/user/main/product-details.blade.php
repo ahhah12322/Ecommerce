@@ -336,56 +336,43 @@
                                 <div class="product-details-large tab-content">
                                     <div class="tab-pane active" id="pro-details1">
                                         <div class="easyzoom easyzoom--overlay">
-                                            <a href="/assets/Frontend/img/product-details/bl1.jpg">
-                                                <img src="/assets/Frontend/img/product-details/l1.jpg" alt="">
+                                            <a href="/chi-tiet/{{ $vehicle->id }}">
+                                                <img class="zoomable"
+                                                    src="{{ asset($vehicleImages[$vehicle->id]['mainImage']->ImageURL) }}"
+                                                    alt="Main Image">
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="tab-pane" id="pro-details2">
-                                        <div class="easyzoom easyzoom--overlay">
-                                            <a href="/assets/Frontend/img/product-details/bl2.jpg">
-                                                <img src="/assets/Frontend/img/product-details/l2.jpg" alt="">
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane" id="pro-details3">
-                                        <div class="easyzoom easyzoom--overlay">
-                                            <a href="/assets/Frontend/img/product-details/bl3.jpg">
-                                                <img src="/assets/Frontend/img/product-details/l3.jpg" alt="">
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane" id="pro-details4">
-                                        <div class="easyzoom easyzoom--overlay">
-                                            <a href="/assets/Frontend/img/product-details/bl4.jpg">
-                                                <img src="/assets/Frontend/img/product-details/l4.jpg" alt="">
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane" id="pro-details5">
-                                        <div class="easyzoom easyzoom--overlay">
-                                            <a href="/assets/Frontend/img/product-details/bl3.jpg">
-                                                <img src="/assets/Frontend/img/product-details/l3.jpg" alt="">
-                                            </a>
-                                        </div>
-                                    </div>
+                                    @if (isset($vehicleImages[$vehicle->id]['additionalImages']))
+                                        @foreach ($vehicleImages[$vehicle->id]['additionalImages'] as $image)
+                                            <div class="tab-pane" id="{{ $loop->iteration }}">
+                                                <div class="easyzoom easyzoom--overlay">
+                                                    <a href="/chi-tiet/{{ $vehicle->id }}">
+                                                        <img class="zoomable"
+                                                            src="{{ asset($image->ImageURL) }}"alt="Additional Image">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endif
+
                                 </div>
                                 <div class="product-details-small nav mt-12 product-dec-slider owl-carousel">
                                     <a class="active" href="#pro-details1">
-                                        <img src="/assets/Frontend/img/product-details/s1.jpg" alt="">
+                                        @if (isset($vehicleImages[$vehicle->id]['mainImage']))
+                                            <img src="{{ asset($vehicleImages[$vehicle->id]['mainImage']->ImageURL) }}"
+                                                alt="Main Image">
+                                        @else
+                                            <p>No main image available.</p>
+                                        @endif
                                     </a>
-                                    <a href="#pro-details2">
-                                        <img src="/assets/Frontend/img/product-details/s2.jpg" alt="">
-                                    </a>
-                                    <a href="#pro-details3">
-                                        <img src="/assets/Frontend/img/product-details/s3.jpg" alt="">
-                                    </a>
-                                    <a href="#pro-details4">
-                                        <img src="/assets/Frontend/img/product-details/s4.jpg" alt="">
-                                    </a>
-                                    <a href="#pro-details5">
-                                        <img src="/assets/Frontend/img/product-details/s3.jpg" alt="">
-                                    </a>
+                                    @if (isset($vehicleImages[$vehicle->id]['additionalImages']))
+                                        @foreach ($vehicleImages[$vehicle->id]['additionalImages'] as $image)
+                                            <a href="#{{ $loop->iteration }}">
+                                                <img src="{{ asset($image->ImageURL) }}"alt="Additional Image">
+                                            </a>
+                                        @endforeach
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -854,4 +841,22 @@
                     </div>
                 </div>
             </div>
+            <script>
+                document.querySelectorAll('.easyzoom').forEach(easyzoom => {
+                    const img = easyzoom.querySelector('.zoomable');
+
+                    easyzoom.addEventListener('mousemove', (event) => {
+                        const rect = easyzoom.getBoundingClientRect();
+                        const x = ((event.clientX - rect.left) / rect.width) * 100;
+                        const y = ((event.clientY - rect.top) / rect.height) * 100;
+
+                        img.style.transformOrigin = `${x}% ${y}%`; // Đặt tâm phóng to
+                    });
+
+                    easyzoom.addEventListener('mouseleave', () => {
+                        img.style.transformOrigin = 'center'; // Reset tâm khi rời chuột
+                    });
+                });
+            </script>
+
             @include('user.app.footer')

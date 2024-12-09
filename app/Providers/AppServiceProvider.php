@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-   public function boot()
+    public function boot()
     {
         // Chia sẻ dữ liệu số lượng sản phẩm giỏ hàng cho mọi view
         View::composer('*', function ($view) {
@@ -29,12 +29,5 @@ class AppServiceProvider extends ServiceProvider
             $cartCount = count($cart);
             $view->with('cartCount', $cartCount);
         });
-
-
-    //         // Chia sẻ thông tin người dùng cho mọi view
-    // View::composer('*', function ($view) {
-    //     $user = Auth::user(); // Lấy thông tin người dùng đã đăng nhập
-    //     $view->with('user', $user);
-    // });
     }
 }

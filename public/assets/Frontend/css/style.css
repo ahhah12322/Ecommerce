@@ -25,7 +25,48 @@
 -----------------------------------------------------------------------------------*/
 
 /*----------- 2. Home page style --------*/
+/* admin */
+#additionalImagesPreview,
+#mainImagePreview {
+    display: flex;
+    flex-wrap: wrap;
+    /* Cho phép các ảnh dồn sang hàng tiếp theo */
+    gap: 10px;
+    /* Khoảng cách giữa các ảnh */
+}
+
+#additionalImagesPreview img,
+#mainImagePreview img {
+    width: 30%;
+    /* Điều chỉnh chiều rộng của ảnh */
+    max-width: 100%;
+    /* Đảm bảo ảnh không vượt quá chiều rộng của container */
+    margin-bottom: 10px;
+    /* Khoảng cách giữa ảnh và nút xóa */
+}
+
+
+
 /* header area */
+.easyzoom {
+    position: relative;
+    overflow: hidden;
+    /* Đảm bảo chỉ hiển thị vùng chứa */
+}
+
+.easyzoom img.zoomable {
+    transition: transform 0.3s ease;
+    /* Hiệu ứng mượt khi phóng */
+    cursor: zoom-in;
+}
+
+.easyzoom:hover img.zoomable {
+    transform: scale(2);
+    /* Phóng to ảnh */
+    cursor: zoom-out;
+}
+
+
 /* Extra Small Devices, Phones */
 @media only screen and (max-width : 480px) {
     .product-details-content {
@@ -271,14 +312,7 @@ p.sub {
 }
 
 /* ##### */
-/* pre {
-    font-size: 14px;
-    font-weight: normal;
-    line-height: 25px;
-    color: #454545;
-    margin-bottom: 15px;
-    font-family: 'Poppins', sans-serif;
-} */
+
 
 /* sssss */
 .header-area {
