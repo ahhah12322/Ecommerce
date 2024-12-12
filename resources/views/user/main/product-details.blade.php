@@ -382,13 +382,20 @@
                         <div class="product-details-content">
                             <h2>{{ $vehicle->VehicleName }}</h2>
                             <div class="quick-view-rating">
-                                <i class="fa fa-star reting-color"></i>
-                                <i class="fa fa-star reting-color"></i>
-                                <i class="fa fa-star reting-color"></i>
-                                <i class="fa fa-star reting-color"></i>
-                                <i class="fa fa-star reting-color"></i>
-                                <span> ( 01 Customer Review )</span>
-                            </div>
+                                <div class="quick-view-rating">
+                                    @if ($vehicle->reviews->count() > 0)
+                                        @php
+                                            $totalRating = $vehicle->reviews->sum('rating');
+                                            $averageRating = $totalRating / $vehicle->reviews->count();
+                                        @endphp
+                                        @for ($i = 1; $i <= $averageRating; $i++)
+                                            <i class="fa fa-star reting-color"></i>
+                                        @endfor
+                                        <span> ({{ $vehicle->reviews->count() }} Customer Reviews)</span>
+                                    @else
+                                        <span>(No reviews yet)</span>
+                                    @endif
+                                </div>
                             <div class="product-price">
                                 <span>{{ $vehicle->rental_price_per_day }}/ngày</span>
                             </div>
@@ -399,7 +406,12 @@
                                 <div class="bundle-all-price">
                                     <div class="bundle-price">
                                         <ul>
-                                            <li>Hãng xe: {{ $vehicle->BrandID }}</li>
+                                            <li>Hãng xe: @foreach ($brands as $brand)
+                                                @if ($vehicle->BrandID == $brand->BrandID)
+                                                    {{ $brand->BrandName }}
+                                                @endif
+                                            @endforeach
+                                        </li>
                                             <li>Năm SX: {{ $vehicle->year_of_manufacture }}</li>
                                             <li>Số ghế: {{ $vehicle->seat_number }}</li>
                                             <li>Biển số: {{ $vehicle->license_plate }}</li>
@@ -437,20 +449,14 @@
                                 <h5 class="pd-sub-title">Categories</h5>
                                 <ul>
                                     <li>
-                                        <a href="#">fashion ,</a>
+                                        <a href="#">
+                                            @foreach ($categorys as $category)
+                                            @if ($vehicle->CategoryID == $category->CategoryID)
+                                                {{ $category->CategoryName }}
+                                            @endif
+                                        @endforeach</a>
                                     </li>
-                                    <li>
-                                        <a href="#">electronics ,</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">toys ,</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">food ,</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">jewellery </a>
-                                    </li>
+                                   
                                 </ul>
                             </div>
                             <div class="product-share">
@@ -789,16 +795,22 @@
                             </div>
                         </div>
                         <div class="col-md-12">
-
                             <h3 style="margin: 40px 0px;">Nhận xét - Đánh giá:</h3>
                             <div class="product-details-content">
                                 <div class="comments">
                                     <div class="row">
-                                        <div class="col-md-12">
-                                            <form method="post" action="" id="form" role="form"
-                                                class="blog-comments">
-                                                <div class="row">
+                                        @if ($errors->any())
+                                            <div class="alert alert-danger">
+                                                {{ $errors->first() }}
+                                            </div>
+                                        @endif
 
+                                        <div class="col-md-12">
+                                            <form method="POST" action="{{ route('reviews.store') }}">
+                                                @csrf
+                                                <input type="hidden" name="vehicle_id" value="{{ $vehicle->id }}"
+                                                    class="blog-comments">
+                                                <div class="row">
                                                     <div class="col-md-12 form-group">
                                                         <!-- Name -->
                                                         <input type="text" name="title" id="name"
@@ -837,6 +849,60 @@
                                     </div>
                                 </div>
                             </div>
+
+                        </div>
+                        <div class="col-md-12">
+                            <h3 style="margin: 40px 0px;">Khách hàng nhận xét:</h3>
+                            <div id="reviewCarousel" class=" product-details-content carousel slide"
+                                data-ride="carousel">
+                                <div class="carousel-inner">
+                                    {{-- <?php dd($reviews); ?> --}}
+                                    @forelse($reviews as $index => $review)
+                                        <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    {{-- <img class="img-comment"
+                                                        src="{{ $review->customer->avatar ?? 'https://via.placeholder.com/50' }}"
+                                                        alt="Avatar"> --}}
+                                                    <div class="col-md-2">
+                                                        <img class="img-comment"
+                                                            src="https://n1-cstg.mioto.vn/m/avatars/h.jpg"
+                                                            alt="">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-10">
+                                                    <div class="product-overview">
+                                                        <h5 class="pd-sub-title">
+                                                            {{ $review->customer_name ?? 'Khách hàng' }}</h5>
+                                                        <div class="quick-view-rating">
+
+                                                            @for ($i = 0; $i <= $review->rating; $i++)
+                                                                <i class="fa fa-star reting-color"></i>
+                                                            @endfor
+
+                                                        </div>
+                                                        <p>{{ $review->content }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @empty
+                                        <p>Chưa có đánh giá nào cho xe này.</p>
+                                    @endforelse
+                                </div>
+                                <a class="carousel-control-prev" href="#reviewCarousel" role="button"
+                                    data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#reviewCarousel" role="button"
+                                    data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                        </div>
                         </div>
                     </div>
                 </div>

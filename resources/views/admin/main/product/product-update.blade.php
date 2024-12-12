@@ -57,7 +57,7 @@
                             <label for="additionalImages" class="form-label">Chọn thêm nhiều ảnh:</label>
                             <input type="file" class="form-control" id="additionalImages" name="additional_images[]"
                                 accept="image/*" multiple onchange="previewImages(event)">
-                            <div id="additionalImagesPreview" class="mt-2 text-center">
+                            <div id="additionalImagesPreview" class="mt-2 ">
 
                                 @foreach ($vehicleImages[$vehicleedit->id]['additionalImages'] as $image)
                                     <div class="image-wrapper"
@@ -466,7 +466,7 @@
                     const img = document.createElement('img');
                     img.src = e.target.result;
                     img.classList.add('img-fluid');
-                    img.style.width = '100%';
+                    img.style.width = '15%';
 
                     // Nút Xóa ảnh
                     const removeButton = document.createElement('button');

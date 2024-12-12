@@ -9,6 +9,8 @@ use App\Models\Category;
 use App\Models\VehicleType;
 use App\Models\VehicleImage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
+
 
 
 
@@ -259,12 +261,27 @@ class VehicleController extends Controller
      */
     public function show($id)
     {
+        DB::table('vehicle_views')->insert([
+            'vehicle_id' => $id,
+            'viewed_at' => now(),
+        ]);
 
-
+        $reviews = DB::table('vehicles')
+            ->leftJoin('reviews', 'vehicles.id', '=', 'reviews.vehicle_id')
+            ->leftJoin('users', 'reviews.customer_id', '=', 'users.id')
+            ->where('vehicles.id', $id)
+            ->select('vehicles.*', 'reviews.*', 'users.*')
+            ->select(
+                'vehicles.*',
+                'reviews.*',
+                'users.id as user_id',
+                'users.name as customer_name'  // Lấy tên khách hàng từ bảng users
+            )
+            ->get();
         $vehicle = Vehicle::findOrFail($id);
         $brands = Brand::all();
         $types = VehicleType::all();
-        $cates = Category::all();
+        $categorys = Category::all();
         // Mảng để lưu ảnh chính và ảnh phụ của từng xe
         $vehicleImages = [];
 
@@ -285,7 +302,7 @@ class VehicleController extends Controller
         ];
 
 
-        return view('user.main.product-details', compact('brands', 'vehicle', 'types', 'cates', 'vehicleImages'));
+        return view('user.main.product-details', compact('brands', 'vehicle', 'types', 'categorys', 'vehicleImages', 'reviews'));
     }
 
     /**
