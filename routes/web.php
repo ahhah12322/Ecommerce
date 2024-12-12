@@ -13,6 +13,13 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\RentalContractController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckUserSession;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\VehicleViewController;
+use App\Http\Controllers\ReviewController;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Request;
+use App\Mail\MailKM;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 
 //User
@@ -25,8 +32,41 @@ use App\Http\Middleware\CheckUserSession;
 // Route::get('/dang-ky', function () {
 //     return view('auth.register');
 // });
+// gửi mail
+Route::post('/subscribe', function (Request $request) {
+    $validated = $request->validate([
+        'EMAIL' => 'required|email',
+    ]);
 
+    Mail::to($validated['EMAIL'])->send(new MailKM($validated['EMAIL']));
 
+    return back()->with('success', 'Cảm ơn bạn đã đăng ký!');
+});
+// đánh giá
+Route::post('/reviews', [ReviewController::class, 'store'])->middleware('auth')->name('reviews.store');
+
+// tính view
+Route::get('/api/statistics', [VehicleController::class, 'getStatistics'])->name('statistics');
+// chat
+Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+Route::post('/chat/send', [ChatController::class, 'send'])->name('chat.send');
+Route::get('/chat/messages', [ChatController::class, 'messages'])->name('chat.messages');
+Route::get('/chat/users', [ChatController::class, 'users'])->name('chat.users');
+
+Route::get('/email/verify', function () {
+    return view('mail.verify-email');
+})->middleware('auth')->name('verification.notice');
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return redirect('/');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return response()->json(['message' => 'Verification link sent!'], 200);
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 
 
@@ -61,10 +101,27 @@ Route::middleware(['checkSession', 'role:user'])->group(function () {
     })->name('contact');
 
 
+
+
+
+
+
     ##### thanh toán hóa đơn user ############
-    Route::get('/thanh-toan', function () {
-        return view('user.main.checkout');
-    })->name('checkout');
+    // Route::get('/thanh-toan', function () {
+    //     return view('user.main.checkout');
+    // })->name('checkout');
+    Route::get('/checkout', [RentalContractController::class, 'showCheckout'])->name('checkout');
+
+    Route::post('/complete-rental', [RentalContractController::class, 'completeRental'])->name('completeRental');
+    // Quản lý đơn hàng
+
+
+
+
+
+
+
+
 
     ##### lịch sử đặt xe ############
     Route::get('/lich-su', function () {
@@ -93,12 +150,24 @@ Route::middleware(['checkSession', 'role:user'])->group(function () {
 
     Route::post('/user/update-avatar', [UserController::class, 'updateAvatar'])->name('user.update.avatar');
 
+
+
+
     ##### giỏ hàng ############
     // Route thêm sản phẩm vào giỏ hàng
     Route::post('/add-yeu-thich', [CartController::class, 'addToCart']);
     Route::get('/yeu-thich', [CartController::class, 'showCart'])->name('cart.show');
     Route::post('/yeu-thich/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
+
+
+
 });
+
+
+
+
+
+
 
 
 
@@ -137,13 +206,25 @@ Route::get('/tim-xe', [VehicleController::class, 'search'])->name('vehicle.searc
 
 
 
-Route::middleware(['checkSession', 'role:admin'])->group(
-    function () {
+Route::middleware(['checkSession', 'role:admin'])->group(function () {
 
         ///ADMIN
-        Route::get('/admin', function () {
-            return view('admin.index');
-        })->name('admin');
+    Route::get('/admin', [AccountController::class, 'index'])->name('admin');
+
+    // admin 
+    //order
+    Route::get('/admin/order-cart', [RentalContractController::class, 'order_cart'])->name('order.cart');
+    Route::get('/admin/order-checkout', [RentalContractController::class, 'order_checkout'])->name('order.checkout');
+    Route::get('/admin/order-detail/{id}', [RentalContractController::class, 'order_detail'])->name('order.detail');
+    Route::get('/admin/orders-list', [RentalContractController::class, 'orderList'])->name('orders.list');
+    Route::get('/admin/order-add', [AdminOrderController::class, 'showOrderForm'])->name('admin.order.add');
+    Route::post('/admin/order-add', [AdminOrderController::class, 'storeOrder'])->name('admin.order.store');
+
+    Route::get('/customer-list', [UserController::class, 'list'])->name('customer.list');
+    Route::get('/customer-detail/{id}', [UserController::class, 'detail'])->name('customer.detail');
+
+
+        ///ADMIN
         ##### Category ############
         Route::get('/admin/category', [CategoryController::class, 'index'])->name('category-list');
         Route::get('/admin/category/add', function () {
@@ -187,4 +268,16 @@ Route::middleware(['checkSession', 'role:admin'])->group(
             return view('admin.main.purchase.purchase-list');
         });
     }
+
+
+
+
 );
+
+
+Route::get('/error', function () {
+    return view('errors.forbidden');
+})->name('forbidden');
+
+
+

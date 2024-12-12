@@ -20,6 +20,10 @@ class CartController extends Controller{
             return response()->json(['success' => false, 'message' => 'Sản phẩm không tồn tại']);
         }
 
+        if ($vehicle->status !== 'sẵn sàng') {
+            return response()->json(['success' => false, 'message' => 'Xe đã không còn trong trạng thái sẵn sàng, vui lòng chọn xe khác.']);
+        }
+
         // Lấy giỏ hàng hiện tại từ cookie
         $cart = json_decode(Cookie::get('cart'), true) ?? [];
 
@@ -41,6 +45,7 @@ class CartController extends Controller{
         $cart[] = [
             'id' => $vehicle->id,
             'name' => $vehicle->VehicleName,
+            'priceh' => $vehicle->rental_price_per_hour,
             'price' => $vehicle->rental_price_per_day,
             'brand' => $vehicle->BrandID,
             'seat' => $vehicle->seat_number,
@@ -51,6 +56,7 @@ class CartController extends Controller{
 
         return response()->json(['success' => true, 'message' => 'Sản phẩm đã được thêm vào giỏ hàng']);
     }
+    
     public function showCart()
 {
     // Lấy giỏ hàng từ cookie

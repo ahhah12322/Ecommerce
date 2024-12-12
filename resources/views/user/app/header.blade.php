@@ -37,7 +37,7 @@
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-4">
                             <div class="logo-small-device">
-                                <a href="/"><img alt="" src="assets/Frontend/img/logo/megologo.png"></a>
+                                <a href="{{ route('index') }}"><img alt="" src="assets/Frontend/img/logo/megologo.png"></a>
                             </div>
                         </div>
                         <div class="col-lg-8 col-md-8 col-8">
@@ -91,7 +91,7 @@
                             <a href="/yeu-thich"> <i class="ti-shopping-cart"></i>
                                 <span class="count-style">{{ $cartCount }}</span></a>
 
-                            <i style="margin-left: 30px;" class="ti-user"></i>
+                            <a href="/tai-khoan"> <i style="margin-left: 30px;" class="ti-user"></i> </a>
                         </button>
 
                     </div>

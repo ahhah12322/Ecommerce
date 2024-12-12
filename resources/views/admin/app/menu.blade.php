@@ -120,6 +120,9 @@
                                         <li class="sub-nav-item">
                                              <a class="sub-nav-link" href="{{ Route('order.checkout') }}">Check Out</a>
                                         </li>
+                                        <li class="sub-nav-item">
+                                            <a class="sub-nav-link" href="{{ Route('admin.order.add') }}">Add</a>
+                                       </li>
                                    </ul>
                               </div>
                          </li>

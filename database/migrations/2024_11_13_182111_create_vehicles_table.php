@@ -13,7 +13,8 @@ return new class extends Migration
     {
         // Tạo bảng mới
         Schema::create('vehicles', function (Blueprint $table) {
-               $table->id(); $table->string('VehicleName');
+               $table->id();
+                $table->string('VehicleName');
              $table->bigInteger('BrandID')->unsigned();
 
     $table->bigInteger('CategoryID')->unsigned();

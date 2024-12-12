@@ -31,7 +31,6 @@
 
 <body>
 
-<<<<<<< Updated upstream
      <!-- START Wrapper -->
      <div class="wrapper">
 
@@ -232,28 +231,6 @@
                     <div class="d-flex align-items-center bg-primary p-3 offcanvas-header">
                          <h5 class="text-white m-0 fw-semibold">Activity Stream</h5>
                          <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-=======
-    <!-- START Wrapper -->
-    <div class="wrapper">
-
-        <!-- ========== Topbar Start ========== -->
-        <header class="topbar">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <div class="d-flex align-items-center">
-                        <!-- Menu Toggle Button -->
-                        <div class="topbar-item">
-                            <button type="button" class="button-toggle-menu me-2">
-                                <iconify-icon icon="solar:hamburger-menu-broken"
-                                    class="fs-24 align-middle"></iconify-icon>
-                            </button>
-                        </div>
-
-                        <!-- Menu Toggle Button -->
-                        <div class="topbar-item">
-                            <h4 class="fw-bold topbar-button pe-none text-uppercase mb-0">Welcome!</h4>
-                        </div>
->>>>>>> Stashed changes
                     </div>
 
                     <div class="d-flex align-items-center gap-1">

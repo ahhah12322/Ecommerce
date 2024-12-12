@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
+
 
 class RentalContract extends Model
 {
@@ -33,9 +35,26 @@ class RentalContract extends Model
     {
         return $this->belongsTo(Vehicle::class, 'VehicleID');
     }
-    public function province()
+
+
+
+    protected $table = 'rental_contracts';
+    // Sử dụng sự kiện tạo
+    protected static function booted()
     {
-        return $this->belongsTo(Province::class, 'ProvinceID');
+        static::creating(function ($contract) {
+            $now = Carbon::now();
+            $rentalStartDate = $now->setTime(9, 0);
+
+            // Kiểm tra nếu hiện tại đã qua 9:00 AM thì chọn ngày hôm sau
+            if ($now->gt($rentalStartDate)) {
+                $rentalStartDate->addDay();
+            }
+
+            // Thiết lập giá trị mặc định
+            $contract->RentalStartDate = $contract->RentalStartDate ?? $rentalStartDate;
+            $contract->RentalEndDate = $contract->RentalEndDate ?? $rentalStartDate->copy()->addDay();
+        });
     }
 }
 

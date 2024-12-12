@@ -19,8 +19,8 @@ class Province extends Model
     ];
     
     // Liên kết với các quan hệ khác nếu cần
-    public function rentalContracts()
-    {
-        return $this->hasMany(RentalContract::class, 'ProvinceID', 'id');
-    }
+    // public function vehicles()
+    // {
+    //     return $this->hasMany(Vehicle::class, 'ProvinceID');
+    // }
 }
