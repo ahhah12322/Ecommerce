@@ -9,35 +9,37 @@
     <title>MeGo - Thuê xe du lịch tự lái</title>
     <meta name="description" content="Live Preview Of Oswan eCommerce HTML5 Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="assets/Frontend/img/logo/icon.png">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/Frontend/img/logo/icon.png') }}">
     <!-- all css here -->
-    <link rel="stylesheet" href="assets/Frontend/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/Frontend/css/animate.css">
-    <link rel="stylesheet" href="assets/Frontend/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="assets/Frontend/css/chosen.min.css">
-    <link rel="stylesheet" href="assets/Frontend/css/icofont.css">
-    <link rel="stylesheet" href="assets/Frontend/css/themify-icons.css">
-    <link rel="stylesheet" href="assets/Frontend/css/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/Frontend/css/meanmenu.min.css">
-    <link rel="stylesheet" href="assets/Frontend/css/bundle.css">
-    <link rel="stylesheet" href="assets/Frontend/css/style.css">
-    <link rel="stylesheet" href="assets/Frontend/css/responsive.css">
-    <script src="assets/Frontend/js/vendor/modernizr-2.8.3.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('assets/Frontend/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/Frontend/css/animate.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/Frontend/css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/Frontend/css/chosen.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/Frontend/css/icofont.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/Frontend/css/themify-icons.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/Frontend/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/Frontend/css/meanmenu.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/Frontend/css/bundle.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/Frontend/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/Frontend/css/responsive.css') }}">
+    <script src="{{ asset('assets/Frontend/js/vendor/modernizr-2.8.3.min.js') }}"></script>
 </head>
 
 <body>
     <div class="wrapper">
 
         <!-- header start -->
-        <header>
+        <header style="border-bottom: 1px solid #e0e0e0;">
             <div class="header-area transparent-bar ptb-55">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-4">
                             <div class="logo-small-device">
-                                <a href="{{ route('index') }}"><img alt="" src="assets/Frontend/img/logo/megologo.png"></a>
+                                <a href="{{ route('index') }}"><img alt=""
+                                        src="{{ asset('assets/Frontend/img/logo/N-V-T-car.png') }}"></a>
                             </div>
                         </div>
                         <div class="col-lg-8 col-md-8 col-8">
@@ -47,9 +49,10 @@
                                 </div>
                                 <div class="menu-wrapper text-center">
                                     <button class="menu-toggle">
-                                        <img class="s-open" alt="" src="assets/Frontend/img/icon-img/menu.png">
+                                        <img class="s-open" alt=""
+                                            src="{{ asset('assets/Frontend/img/icon-img/menu.png') }}">
                                         <img class="s-close" alt=""
-                                            src="assets/Frontend/img/icon-img/menu-close.png">
+                                            src="{{ asset('assets/Frontend/img/icon-img/menu-close.png') }}">
                                     </button>
                                     <div class="main-menu">
                                         <nav>
@@ -82,6 +85,36 @@
                                 </div>
                             </div>
 
+                        </div>
+                        <div class="mobile-menu-area col-12">
+                            <div class="mobile-menu">
+                                <nav id="mobile-menu-active">
+                                    <ul class="menu-overflow">
+                                        <li><a href="/">Trang chủ</a></li>
+                                        <li class="active"><a href="{{ route('index') }}">Giới thiệu</a></li>
+                                        {{-- <li><a href="{{ route('index') }}">Trang chủ</a></li> --}}
+                                        {{-- <li class="active"><a href="">Giới thiệu</a></li> --}}
+                                        <li><a href="{{ route('vehicle.shop') }}">Hãng xe</a>
+                                            <ul>
+                                                {{-- @foreach ($brands as $brand)
+                                                            <li><a
+                                                                    href="/shop/{{ $brand->BrandName }}">{{ $brand->BrandName }}</a>
+                                                            </li>
+                                                        @endforeach --}}
+                                            </ul>
+                                        </li>
+                                        <li><a href="">Địa điểm thuê xe</a>
+                                            <ul>
+                                                <li><a href="/shop/location/Hà%20Nội">Hà Nội</a></li>
+                                                <li><a href="/shop/location/Hồ%20Chí%20Minh">Hồ Chí Minh</a>
+                                                </li>
+                                                <li><a href="/shop/location/Đà%20Nẵng">Đà Nẵng</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="/lien-he">Liên hệ</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
                         </div>
                     </div>
                 </div>

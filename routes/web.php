@@ -21,18 +21,14 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use App\Mail\MailKM;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\MoMoController;
+use App\Http\Controllers\VnpayController;
 
 
-//User
-// Route::get('/', [MainController::class, 'index'])->name('index');
-// ##### Đăng nhạp user ############
-// Route::get('/dang-nhap', function () {
-//     return view('auth.login');
-// });
-// ##### Dăng ký user ############
-// Route::get('/dang-ky', function () {
-//     return view('auth.register');
-// });
+Route::post('/add-yeu-thich', [CartController::class, 'addToCart']);
+Route::get('/yeu-thich', [CartController::class, 'showCart'])->name('cart.show');
+Route::post('/yeu-thich/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
 // gửi mail
 Route::post('/subscribe', function (Request $request) {
     $validated = $request->validate([
@@ -43,6 +39,15 @@ Route::post('/subscribe', function (Request $request) {
 
     return back()->with('success', 'Cảm ơn bạn đã đăng ký!');
 });
+Route::get('/verify/email/{email}', [AuthController::class, 'verifyemail'])->name('verify.email');
+Route::post('/resend-verification-email', [AuthController::class, 'resendVerificationEmail'])->name('resend.verification.email');
+Route::get('/email/verify/wait', function () {
+    return view('auth.wait');
+})->name('verify.email.wait');
+
+
+
+
 // đánh giá
 Route::post('/reviews', [ReviewController::class, 'store'])->middleware('auth')->name('reviews.store');
 
@@ -54,20 +59,12 @@ Route::post('/chat/send', [ChatController::class, 'send'])->name('chat.send');
 Route::get('/chat/messages', [ChatController::class, 'messages'])->name('chat.messages');
 Route::get('/chat/users', [ChatController::class, 'users'])->name('chat.users');
 
-Route::get('/email/verify', function () {
-    return view('mail.verify-email');
-})->middleware('auth')->name('verification.notice');
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
 
-    return redirect('/');
-})->middleware(['auth', 'signed'])->name('verification.verify');
-
-Route::post('/email/verification-notification', function (Request $request) {
-    $request->user()->sendEmailVerificationNotification();
-
-    return response()->json(['message' => 'Verification link sent!'], 200);
-})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+##### Quên mật khẩu ############
+Route::get('/quen-mat-khau', function () {
+    return view('auth.forgot-password');
+})->name('forgot-password');
+Route::post('/quen-mat-khau', [AuthController::class, 'forgot'])->name('forgot.pass');
 
 
 
@@ -91,7 +88,7 @@ Route::withoutMiddleware([CheckUserSession::class])->group(function () {
 
 Route::middleware(['checkSession', 'role:user'])->group(function () {
 
-    // Contract
+    // Contract 
     Route::get('/gioi-thieu', function () {
         return view('user.main.about-us');
     })->name('about-us');
@@ -100,6 +97,20 @@ Route::middleware(['checkSession', 'role:user'])->group(function () {
     Route::get('/lien-he', function () {
         return view('user.main.contact');
     })->name('contact');
+
+    // Payment 
+    // VNPay
+    Route::get('/payment', [VnpayController::class, 'createPayment'])->name('vnpay.payment');
+    Route::get('/vnpay-return', [VnpayController::class, 'vnpayReturn'])->name('vnpay.return');
+
+    // MoMo
+    Route::get('/momo-payment', [MoMoController::class, 'createPayment'])->name('momo.payment');
+    Route::get('/momo-return', [MoMoController::class, 'momoReturn'])->name('momo.return');
+    Route::post('/momo-notify', [MoMoController::class, 'momoNotify'])->name('momo.notify');
+    Route::post('/process-payment', [PaymentController::class, 'processPayment'])->name('process.payment');
+
+    // Bank
+    Route::get('/bank/payment', [PaymentController::class, 'bankPayment'])->name('bank.payment');
 
 
 

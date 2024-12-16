@@ -2,17 +2,12 @@
 <html>
 
 <head>
-    <title>{{ $details['title'] }}</title>
+    <title>Subscription Confirmation</title>
 </head>
 
 <body>
-    @if (session()->has('message'))
-        <script>
-            alert('{{ session('message') }}');
-        </script>
-    @endif
-    <h1>{{ $details['title'] }}</h1>
-    <p>{{ $details['body'] }}</p>
+    <h1>Thank you for subscribing!</h1>
+    <p>Your email: {{ $email }}</p>
 </body>
 
 </html>

@@ -12,9 +12,9 @@
 }
 
 .image-container img {
-    width: 100%;
+    width: 100% !important;
     /* Đảm bảo ảnh chiếm hết chiều rộng container */
-    border-radius: 8px;
+   
 }
 
 .remove-button {

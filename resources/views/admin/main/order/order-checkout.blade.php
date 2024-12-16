@@ -17,7 +17,7 @@
                          <div class="col-lg-8">
                               <div class="card">
                                    <div class="card-body">
-                                        <div class="row">
+                                        <div class="row">   
                                              <div class="col-lg-3">
                                                   <h4 class="card-title">Personal Details</h4>
                                              </div>

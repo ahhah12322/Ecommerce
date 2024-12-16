@@ -8,6 +8,8 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\VehicleType;
 use App\Models\VehicleImage;
+use App\Models\RentalContract;
+
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 
@@ -26,6 +28,25 @@ class VehicleController extends Controller
         $vehicles = Vehicle::paginate(6);
         $brands = Brand::all();
         $cates = Category::all();
+
+        $reviews = DB::table('vehicles')
+            ->leftJoin('reviews', 'vehicles.id', '=', 'reviews.vehicle_id')
+            ->leftJoin('users', 'reviews.customer_id', '=', 'users.id')
+            ->where('vehicles.id')
+            ->select('vehicles.*', 'reviews.*', 'users.*')
+            ->select(
+                'vehicles.*',
+                'reviews.*',
+                'users.id as user_id',
+                'users.name as customer_name'  // Lấy tên khách hàng từ bảng users
+            )
+            ->get();
+        foreach ($vehicles as $vehicle) {
+            $ordersCount = RentalContract::where('VehicleID', $vehicle->id)
+                ->where('StatusPayment', 'Đã thanh toán')
+                ->count();
+        }
+
         // Mảng để lưu ảnh chính và ảnh phụ của từng xe
         $vehicleImages = [];
 
@@ -47,7 +68,7 @@ class VehicleController extends Controller
                 'additionalImages' => $additionalImages,
             ];
         }
-        return view('user.main.shop-grid-2-col', compact('brands', 'vehicles', 'cates', 'vehicleImages'));
+        return view('user.main.shop-grid-2-col', compact('brands', 'vehicles', 'cates', 'vehicleImages', 'reviews', 'ordersCount'));
     }
     public function index2()
     {
@@ -349,6 +370,7 @@ class VehicleController extends Controller
      */
     public function update(Request $request, $id)
     {
+        dd($request->all());
         // Tìm phương tiện theo ID
         $vehicle = Vehicle::findOrFail($id);
 

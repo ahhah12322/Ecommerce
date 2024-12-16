@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-       Schema::create('vehicle_images', function (Blueprint $table) {
-            $table->id('ImageID'); // Primary Key
+        Schema::create('vehicle_images', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('VehicleID'); // Foreign Key to vehicles table
             $table->string('ImageURL', 255); // Image URL
             $table->boolean('IsMainImage')->default(false); // Main image flag

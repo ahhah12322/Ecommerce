@@ -26,8 +26,8 @@
                                                 <tr>
                                                     <th class="product-name">Hình ảnh</th>
                                                     <th class="product-price">Xe</th>
-                                                    <th class="product-name">Giá</th>
-                                                    <th class="product-price">Số lượng</th>
+                                                    <th class="product-priceh">Giá theo giờ</th>
+                                                    <th class="product-price">Giá theo ngày</th>
                                                     <th class="product-quantity">Tổng tiền</th>
                                                     <th class="product-subtotal">delete</th>
                                                 </tr>
@@ -39,14 +39,10 @@
                                                         <a href="#"><img src="assets/Frontend/img/cart/4.jpg" alt=""></a>
                                                     </td>
                                                     <td class="product-name">
-                                                        <a href="#">Gloriori GSX 250 R</a>
+                                                        <a href="#">{{ $item->name }}</a>
                                                     </td>
-                                                    <td class="product-price"><span class="amount">$1128.00</span></td>
-                                                    <td class="product-quantity">
-                                                        <div class="quantity-range">
-                                                            <input class="input-text qty text" type="number" step="1" min="0" value="1" title="Qty" size="4">
-                                                        </div>
-                                                    </td>
+                                                    <td class="product-priceh"><span class="amount">{{ $item->priceh }}</span></td>
+                                                    <td class="product-price"><span class="amount">{{ $item->price }}</span></td>
                                                     <td class="product-subtotal">$1128.00</td>
                                                     <td class="product-cart-icon product-subtotal"><a href="#"><i class="ti-trash"></i></a></td>
                                                 </tr>
@@ -55,7 +51,9 @@
                                     </div>
                         </div>
                     </div>
+
                     <div style="height: 40px; width: 100%;"></div>
+
                     <div class="col-md-4">
                         <div class="product-details-content">
                             <div class="product-overview">
@@ -75,7 +73,7 @@
                                 <table class="table">
                                     <tr>
                                         <td>Đơn giá ngày</td>
-                                        <td>100,000 đ</td>
+                                        <td>{{ $item->price }}</td>
                                     </tr>
                                     <tr>
                                         <td>Ngày</td>
@@ -139,5 +137,5 @@
             </div>
         </div>
         </form>
-        <!-- checkout-area end -->
- @include('user.app.footer')
+        {{-- <!-- checkout-area end --> --}}
+        @include('user.app.footer')

@@ -108,19 +108,18 @@
                     @foreach ($vehicles as $vehicle)
                         @if ($vehicle->vehicle_type_id == 1)
                             <div class="product-wrapper-bundle">
-                                <div class="product-wrapper">
+                                <div class="product-wrapper mb-30">
                                     <div class="product-img">
-
-                                        <a href="/chi-tiet/{{ $vehicle->id }}">
-                                            @if (isset($vehicleImages[$vehicle->id]['mainImage']))
-                                                <img src="{{ asset($vehicleImages[$vehicle->id]['mainImage']->ImageURL) }}"
-                                                    alt="Main Image" class="img_main">
-                                            @else
-                                                <p>No main image available.</p>
-                                            @endif
-                                        </a>
-
-
+                                        <div class="fix-img">
+                                            <a href="/chi-tiet/{{ $vehicle->id }}">
+                                                @if (isset($vehicleImages[$vehicle->id]['mainImage']))
+                                                    <img src="{{ asset($vehicleImages[$vehicle->id]['mainImage']->ImageURL) }}"
+                                                        alt="Main Image">
+                                                @else
+                                                    <p>No main image available.</p>
+                                                @endif
+                                            </a>
+                                        </div>
                                         <div class="product-item-dec">
                                             <ul>
                                                 <li>{{ $vehicle->year_of_manufacture }}</li>
@@ -156,10 +155,47 @@
                                                 <h4><a
                                                         href="/chi-tiet/{{ $vehicle->id }}">{{ $vehicle->VehicleName }}</a>
                                                 </h4>
-                                                <span>110 CC</span>
+
                                             </div>
                                             <div class="product-price">
                                                 <span>{{ number_format($vehicle->rental_price_per_day) }}đ/ngày</span>
+                                            </div>
+                                        </div>
+                                        <div class="product-infor">
+                                            <div class="address">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    fill="currentColor" class="bi bi-geo-alt-fill"
+                                                    viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6" />
+                                                </svg>
+                                                <p>{{ $vehicle->location }}
+                                                </p>
+                                            </div>
+
+                                            <div class="infor">
+                                                @if ($vehicle->rentalContracts->count() > 0)
+                                                    <i class="fa fa-star reting-color"></i> <span>
+                                                        @if ($vehicle->reviews->count() > 0)
+                                                            @php
+                                                                $totalRating = $vehicle->reviews->sum('rating');
+                                                                $averageRating =
+                                                                    $totalRating / $vehicle->reviews->count();
+                                                            @endphp
+                                                            {{ number_format($averageRating, 1) }}
+                                                        @endif
+                                                    </span>
+                                                    <span class="dot">•</span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                        height="16" fill="green" class="bi bi-suitcase-fill"
+                                                        viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M6 .5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V3h1.5A1.5 1.5 0 0 1 13 4.5v9a1.5 1.5 0 0 1-1.004 1.416A1 1 0 1 1 10 15H6a1 1 0 1 1-1.997-.084A1.5 1.5 0 0 1 3 13.5v-9A1.5 1.5 0 0 1 4.5 3H6zM9 1H7v2h2zM6 5.5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0zm2.5 0a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0zm2.5 0a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0z" />
+                                                    </svg>
+                                                    <span>{{ $vehicle->rentalContracts->count() }} chuyến</span>
+                                                @else
+                                                    <span>Không có chuyến</span>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -176,14 +212,16 @@
                             <div class="product-wrapper-bundle">
                                 <div class="product-wrapper mb-30">
                                     <div class="product-img">
-                                        <a href="/chi-tiet/{{ $vehicle->id }}">
-                                            @if (isset($vehicleImages[$vehicle->id]['mainImage']))
-                                                <img src="{{ asset($vehicleImages[$vehicle->id]['mainImage']->ImageURL) }}"
-                                                    alt="Main Image">
-                                            @else
-                                                <p>No main image available.</p>
-                                            @endif
-                                        </a>
+                                        <div class="fix-img">
+                                            <a href="/chi-tiet/{{ $vehicle->id }}">
+                                                @if (isset($vehicleImages[$vehicle->id]['mainImage']))
+                                                    <img src="{{ asset($vehicleImages[$vehicle->id]['mainImage']->ImageURL) }}"
+                                                        alt="Main Image">
+                                                @else
+                                                    <p>No main image available.</p>
+                                                @endif
+                                            </a>
+                                        </div>
                                         <div class="product-item-dec">
                                             <ul>
                                                 <li>{{ $vehicle->year_of_manufacture }}</li>
@@ -209,6 +247,7 @@
                                                 data-product-id="{{ $vehicle->id }}" href="javascript:void(0)">
                                                 <i class="ti-heart"></i>
                                             </a>
+
                                             <a class="action-reload" title="Quick View" data-toggle="modal"
                                                 data-target="#exampleModal" href="#">
                                                 <i class=" ti-zoom-in"></i>
@@ -219,10 +258,47 @@
                                                 <h4><a
                                                         href="/chi-tiet/{{ $vehicle->id }}">{{ $vehicle->VehicleName }}</a>
                                                 </h4>
-                                                <span>150 CC</span>
+
                                             </div>
                                             <div class="product-price">
                                                 <span>{{ number_format($vehicle->rental_price_per_day) }}đ/ngày</span>
+                                            </div>
+                                        </div>
+                                        <div class="product-infor">
+                                            <div class="address">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    fill="currentColor" class="bi bi-geo-alt-fill"
+                                                    viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6" />
+                                                </svg>
+                                                <p>{{ $vehicle->location }}
+                                                </p>
+                                            </div>
+
+                                            <div class="infor">
+                                                @if ($vehicle->rentalContracts->count() > 0)
+                                                    <i class="fa fa-star reting-color"></i> <span>
+                                                        @if ($vehicle->reviews->count() > 0)
+                                                            @php
+                                                                $totalRating = $vehicle->reviews->sum('rating');
+                                                                $averageRating =
+                                                                    $totalRating / $vehicle->reviews->count();
+                                                            @endphp
+                                                            {{ number_format($averageRating, 1) }}
+                                                        @endif
+                                                    </span>
+                                                    <span class="dot">•</span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                        height="16" fill="green" class="bi bi-suitcase-fill"
+                                                        viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M6 .5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V3h1.5A1.5 1.5 0 0 1 13 4.5v9a1.5 1.5 0 0 1-1.004 1.416A1 1 0 1 1 10 15H6a1 1 0 1 1-1.997-.084A1.5 1.5 0 0 1 3 13.5v-9A1.5 1.5 0 0 1 4.5 3H6zM9 1H7v2h2zM6 5.5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0zm2.5 0a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0zm2.5 0a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0z" />
+                                                    </svg>
+                                                    <span>{{ $vehicle->rentalContracts->count() }} chuyến</span>
+                                                @else
+                                                    <span>Không có chuyến</span>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -253,21 +329,31 @@
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            'X-CSRF-TOKEN': document.querySelector(
+                                'meta[name="csrf-token"]').content,
                         },
                         body: JSON.stringify({
                             product_id: productId
                         })
                     })
-                    .then(response => response.json())
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Có lỗi từ server');
+                        }
+                        return response.json();
+                    })
                     .then(data => {
-                        if (data.success) {
-                            alert('Đã thêm sản phẩm vào mục yêu thích!');
+                        if (!data.success) {
+                            alert(data.message); // Show server's error message
                         } else {
-                            alert('Có lỗi xảy ra, vui lòng thử lại!');
+                            alert('Đã thêm sản phẩm vào giỏ hàng!');
                         }
                     })
-                    .catch(error => console.error('Error:', error));
+                    .catch(error => {
+                        console.error('Có lỗi xảy ra:', error.message);
+                        alert('Có lỗi xảy ra, vui lòng thử lại!');
+                    });
+
             });
         });
     });

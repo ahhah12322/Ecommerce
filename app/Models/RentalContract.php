@@ -56,5 +56,9 @@ class RentalContract extends Model
             $contract->RentalEndDate = $contract->RentalEndDate ?? $rentalStartDate->copy()->addDay();
         });
     }
+    public function vehicles()
+    {
+        return $this->belongsTo(Vehicle::class, 'VehicleID');
+    }
 }
 

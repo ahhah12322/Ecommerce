@@ -1,18 +1,13 @@
 @include('user.app.header')
-<div class="breadcrumb-area pt-255 pb-170" style="background-image: url(assets/Frontend/img/banner/banner-4.jpg)">
-    <div class="container-fluid">
-        <div class="breadcrumb-content text-center">
-            <h2>Cart page</h2>
-            <ul>
-                <li>
-                    <a href="#">home</a>
-                </li>
-                <li>Cart page</li>
-            </ul>
-        </div>
-    </div>
-</div>
-<div class="product-cart-area pt-120 pb-130">
+<div class="container">
+    <nav aria-label="breadcrumb" class="breadcrumb-nav ">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+            <li class="breadcrumb-item"><a href="/yeu-thich">Yêu thích</a></li>
+        </ol>
+    </nav>
+</div><!-- End .breadcrumb-nav -->
+<div class="product-cart-area">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -99,35 +94,60 @@
                     </div>
                 </div>
             </div>
+            
             <div class="col-md-5 col-sm-6">
                 <div class="shop-total">
-                    <h3>cart total</h3>
+                    <h3>Cart Total</h3>
                     <ul>
                         <li>
-                            sub total
+                            Mã hợp đồng
+                            <span>{{ $ContractID ?? 1000 }}</span>
+                        </li>
+                        <li>
+                            Sub Total
                             <span>$909.00</span>
                         </li>
                         <li>
-                            tax
+                            Tax
                             <span>$9.00</span>
                         </li>
                         <li class="order-total">
-                            shipping
+                            Shipping
                             <span>0</span>
                         </li>
                         <li>
-                            order total
-                            <span>$918.00</span>
+                            Order Total
+                            <span>{{ 200000,00 }}</span>
                         </li>
                     </ul>
                 </div>
-                <div class="cart-btn text-center mb-15">
-                    <a href="#">payment</a>
-                </div>
+                
+                <!-- Form Thanh Toán -->
+                <form action="{{ route('process.payment') }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label for="payment_method">Chọn phương thức thanh toán:</label>
+                        <select name="payment_method" id="payment_method" class="form-control">
+                            <option value="VNPAY">VNPAY</option>
+                            <option value="MOMO">MoMo</option>
+                            <option value="BANK">Ngân Hàng</option>
+                            <option value="CASH">Tiền Mặt</option>
+                        </select>
+                    </div>
+                    <input type="hidden" name="total_cost" value="{{ 200000 }}">
+                    <input type="hidden" name="contract_id" value="{{ $ContractID ?? 1000 }}">
+            
+                    <div class="cart-btn text-center mb-15">
+                        {{-- <button type="submit" class="btn btn-primary">Thanh Toán</button> --}}
+                        <button type="submit" class="cart-btn">Thanh Toán</button>
+                    </div>
+                </form>
+                
                 <div class="continue-shopping-btn text-center">
-                    <a href="#">continue shopping</a>
+                    <a href="#">Continue Shopping</a>
                 </div>
             </div>
+            
         </div>
     </div>
 </div>
