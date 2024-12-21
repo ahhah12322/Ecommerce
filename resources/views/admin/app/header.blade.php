@@ -240,15 +240,24 @@
 
                                 <div class="dropdown-divider my-1"></div>
 
-                                <a class="dropdown-item text-danger">
+                                {{-- <a class="dropdown-item text-danger">
                                     <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                                         @csrf
                                         {{-- <button type="submit" > --}}
-                                        <i type="submit" class="bx bx-log-out fs-18 align-middle me-1"></i><span
+                                        {{-- <i type="submit" class="bx bx-log-out fs-18 align-middle me-1"></i><span
                                             class="align-middle">Logout</span>
                                         {{-- </button> --}}
-                                    </form>
+                                    {{-- </form>
+                                </a> --}}
+                                <a href="#" class="dropdown-item text-danger" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <i class="bx bx-log-out fs-18 align-middle me-1"></i>
+                                    <span class="align-middle">Logout</span>
                                 </a>
+                                
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                                
                             </div>
                         </div>
 

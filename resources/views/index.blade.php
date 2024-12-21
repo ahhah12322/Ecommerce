@@ -123,7 +123,7 @@
                                         <div class="product-item-dec">
                                             <ul>
                                                 <li>{{ $vehicle->year_of_manufacture }}</li>
-                                                <li>{{ $vehicle->VehicleName }}</li>
+                                                <li><p>{{ $vehicle->VehicleName }}</p></li>
                                                 <li>
                                                     @foreach ($brands as $brand)
                                                         @if ($vehicle->BrandID == $brand->BrandID)
@@ -145,10 +145,23 @@
                                                 data-product-id="{{ $vehicle->id }}" href="javascript:void(0)">
                                                 <i class="ti-heart"></i>
                                             </a>
-                                            <a class="action-reload" title="Quick View" data-toggle="modal"
+
+                                            {{-- <a class="action-reload" title="Quick View" data-toggle="modal"
                                                 data-target="#exampleModal" href="#">
-                                                <i class=" ti-zoom-in"></i>
+                                                <i class=" ti-shopping-cart"></i>
+                                            </a> --}}
+                                            <form id="checkout-form" method="POST" action="{{ route('checkout') }}" style="display: none;">
+                                                @csrf
+                                                <input type="hidden" name="vehicle_id" value="{{ $vehicle->id }}">
+                                                {{-- <input type="hidden" name="user" value="{{ session('user') }}"> --}}
+                                            </form>
+                                            
+                                            <a class="action-reload btn btn-primary" title="Quick View" data-toggle="modal"
+                                            data-target="#exampleModal" href="javascript:void(0);" onclick="submitCheckoutForm()"> 
+                                                <i class="ti-shopping-cart"></i>
                                             </a>
+                                            
+                                            
                                         </div>
                                         <div class="product-content-wrapper">
                                             <div class="product-title-spreed">
@@ -252,6 +265,7 @@
                                                 data-target="#exampleModal" href="#">
                                                 <i class=" ti-zoom-in"></i>
                                             </a>
+                                            
                                         </div>
                                         <div class="product-content-wrapper">
                                             <div class="product-title-spreed">
@@ -315,6 +329,11 @@
 
 
 </div>
+<script>
+    function submitCheckoutForm() {
+        document.getElementById('checkout-form').submit();
+    }
+</script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const addToCartButtons = document.querySelectorAll('.add-to-cart');

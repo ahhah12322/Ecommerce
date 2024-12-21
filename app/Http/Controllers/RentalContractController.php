@@ -18,32 +18,50 @@ class RentalContractController extends Controller
     // Hiển thị trang thanh toán 
     public function showCheckout(Request $request)
     {
-        $cart = $request->cookie('cart') ? json_decode($request->cookie('cart'), true) : [];
-        // Nếu không có dữ liệu trong cookie hoặc giỏ hàng rỗng
-        if (!$cart || empty($cart)) {
-            // Lấy một xe bất kỳ có trạng thái "Sẵn sàng"
-            $defaultVehicle = DB::table('vehicles')->where('status', 'Sẵn sàng')->first();
+        // $cart = $request->cookie('cart') ? json_decode($request->cookie('cart'), true) : [];
+        // // Nếu không có dữ liệu trong cookie hoặc giỏ hàng rỗng
+        // if (!$cart || empty($cart)) {
+        //     // Lấy một xe bất kỳ có trạng thái "Sẵn sàng"
+        //     $defaultVehicle = DB::table('vehicles')->where('status', 'Sẵn sàng')->first();
 
-            if (!$defaultVehicle) {
-                return redirect()->route('cart')->with('error', 'Không có xe nào sẵn sàng để thuê. Vui lòng thử lại sau.');
-            }
+        //     if (!$defaultVehicle) {
+        //         return redirect()->route('cart')->with('error', 'Không có xe nào sẵn sàng để thuê. Vui lòng thử lại sau.');
+        //     }
 
-            // Gán giá trị mặc định vào giỏ hàng
-            $cart = [
-                [
-                    'vehicle_id' => $defaultVehicle->id,
-                    'name' => $defaultVehicle->VehicleName,
-                    'price' => $defaultVehicle->rental_price_per_day, // Giá theo ngày
-                    'priceh' => $defaultVehicle->rental_price_per_hour, // Giá theo giờ
-                ]
-            ];
+        //     // Gán giá trị mặc định vào giỏ hàng
+        //     $cart = [
+        //         [
+        //             'vehicle_id' => $defaultVehicle->id,
+        //             'name' => $defaultVehicle->VehicleName,
+        //             'price' => $defaultVehicle->rental_price_per_day, // Giá theo ngày
+        //             'priceh' => $defaultVehicle->rental_price_per_hour, // Giá theo giờ
+        //         ]
+        //     ];
+        // }
+
+        $vehicleId = $request->input('vehicle_id');
+
+        $vehicle = Vehicle::find($vehicleId);
+
+        // Kiểm tra nếu không tìm thấy xe
+        if (!$vehicle) {
+            return redirect()->route('errcheckout')->with('error', 'Xe không tồn tại.');
         }
+    
         
         $user = session('user'); // Lấy thông tin người dùng từ session
 
-        return view('user.main.checkout', compact('cart', 'user'));
-    }
+        // Truyền dữ liệu sang view checkout
+        // return view('user.main.checkout', [
+        //     'vehicleId' => $vehicleId,
+        //     'vehicleName' => $vehicleName,
+        //     'vehiclePrice' => $vehiclePrice,
+        //     'vehiclePriceh' => $vehiclePriceh,
+        //     'user' => $user, // Truyền thông tin user vào view
+        // ]);
+        return view('user.main.checkout', compact('vehicle', 'user'));
 
+    }
 
 
     // Hiển thị trang đặt xe
@@ -53,93 +71,133 @@ class RentalContractController extends Controller
         return view('order.create', compact('vehicle'));
     }
 
+
+    // Hàm tạo mã ContractID 
+    public function generateContractID($userId)
+    {
+        // Định dạng ID người dùng (3 chữ số, thêm số 0 nếu cần)
+        $formattedUserId = str_pad($userId, 6, '0', STR_PAD_LEFT);
+
+        // Lấy thời gian hiện tại và định dạng thành ddmmyyhhmm
+        $currentDateTime = Carbon::now()->format('dmyHi');
+
+        // Kết hợp ID người dùng và thời gian
+        $contractId = $formattedUserId . $currentDateTime;
+
+        return $contractId;
+    }
+
     // Lưu thông tin đơn hàng vào bảng rental_contracts
     public function completeRental(Request $request)
-{
-    // Lấy giỏ hàng từ cookie
-    $cart = $request->cookie('cart') ? json_decode($request->cookie('cart'), true) : [];
+    {
+        // Lấy giỏ hàng từ cookie
+        // $cart = $request->cookie('cart') ? json_decode($request->cookie('cart'), true) : [];
 
-    $user = Auth::user();
+        $user = Auth::user();
+        // $contractId = $this->generateContractID($user->id);
+        $contractId = $request->input('contract_id_input');
+        $vehicleId = $request->input('vehicle_id');
+        $totalCost = $request->input('total_cost');
+        $totalCost = str_replace(['₫', ',', ' '], '', $totalCost); // Loại bỏ "₫" và dấu phẩy
+        // Chuyển đổi sang kiểu số thực
+        $totalCost = (float) $totalCost;
 
-    // Nếu giỏ hàng trống, tạo dữ liệu mặc định
-    if (!$cart || empty($cart)) {
-        $defaultVehicle = DB::table('vehicles')->where('id', 1)->where('status', 'Sẵn sàng')->first();
+        $paymentMethod = $request->input('payment_method');
 
-        if (!$defaultVehicle) {
-            return redirect()->route('cart')->with('error', 'Không có xe sẵn sàng để thuê. Vui lòng thử lại sau.');
-        }
+    //     // Nếu giỏ hàng trống, tạo dữ liệu mặc định
+    //     if (!$cart || empty($cart)) {
+    //         $defaultVehicle = DB::table('vehicles')->where('id', 1)->where('status', 'Sẵn sàng')->first();
 
-        $cart = [
-            [
-                'vehicle_id' => $defaultVehicle->id,
-                'name' => $defaultVehicle->VehicleName,
-                'price' => $defaultVehicle->rental_price_per_day, // Giá theo ngày
-                'priceh' => $defaultVehicle->rental_price_per_hour, // Giá theo giờ
-            ]
-        ];
+    //         if (!$defaultVehicle) {
+    //             return redirect()->route('cart')->with('error', 'Không có xe sẵn sàng để thuê. Vui lòng thử lại sau.');
+    //         }
 
-        // Thiết lập thời gian mặc định
-        $request->merge([
-            'rental_start_date' => now()->addDay()->setTime(9, 0)->toDateTimeString(),
-            'rental_end_date' => now()->addDays(2)->setTime(9, 0)->toDateTimeString(),
-        ]);
-    }
+    //         $cart = [
+    //             [
+    //                 'vehicle_id' => $defaultVehicle->id,
+    //                 'name' => $defaultVehicle->VehicleName,
+    //                 'price' => $defaultVehicle->rental_price_per_day, // Giá theo ngày
+    //                 'priceh' => $defaultVehicle->rental_price_per_hour, // Giá theo giờ
+    //             ]
+    //         ];
 
-    // Kiểm tra trạng thái của các xe trong giỏ hàng
-    foreach ($cart as $item) {
-        $vehicle = DB::table('vehicles')->where('id', $item['vehicle_id'])->first();
+    //         // Thiết lập thời gian mặc định
+    //         $request->merge([
+    //             'rental_start_date' => now()->addDay()->setTime(9, 0)->toDateTimeString(),
+    //             'rental_end_date' => now()->addDays(2)->setTime(9, 0)->toDateTimeString(),
+    //         ]);
+    //     }
 
-        if (!$vehicle) {
-            return redirect()->route('cart')->with('error', 'Xe không tồn tại trong hệ thống.');
-        }
+    //     // Kiểm tra trạng thái của các xe trong giỏ hàng
+    //     foreach ($cart as $item) {
+    //         $vehicle = DB::table('vehicles')->where('id', $item['vehicle_id'])->first();
 
-        if ($vehicle->status !== 'Sẵn sàng') {
-            return redirect()->route('cart')->with('error', 'Xe "' . $vehicle->name . '" không còn ở trạng thái sẵn sàng. Vui lòng chọn xe khác.');
-        }
-    }
+    //         if (!$vehicle) {
+    //             return redirect()->route('cart')->with('error', 'Xe không tồn tại trong hệ thống.');
+    //         }
 
-    // Tính tổng chi phí
-    $totalCost = 0;
-    foreach ($cart as $item) {
-        // Tính chi phí dựa trên rental_start_date và rental_end_date
-        $startDateTime = new DateTime($request->rental_start_date);
-        $endDateTime = new DateTime($request->rental_end_date);
-        $interval = $startDateTime->diff($endDateTime);
-        $hours = $interval->h + ($interval->days * 24);
+    //         if ($vehicle->status !== 'Sẵn sàng') {
+    //             return redirect()->route('cart')->with('error', 'Xe "' . $vehicle->name . '" không còn ở trạng thái sẵn sàng. Vui lòng chọn xe khác.');
+    //         }
+    //     }
 
-        if ($hours <= 6) {
-            $totalCost += $item['priceh'] * $hours;
-        } else {
-            $days = intdiv($hours, 24);
-            $remainingHours = $hours % 24;
+    //     // Tính tổng chi phí
+    //     $totalCost = 0;
+    //     foreach ($cart as $item) {
+    //         // Tính chi phí dựa trên rental_start_date và rental_end_date
+    //         $startDateTime = new DateTime($request->rental_start_date);
+    //         $endDateTime = new DateTime($request->rental_end_date);
+    //         $interval = $startDateTime->diff($endDateTime);
+    //         $hours = $interval->h + ($interval->days * 24);
 
-            $totalCost += $item['price'] * $days;
-            if ($remainingHours <= 6) {
-                $totalCost += $item['priceh'] * $remainingHours;
-            } else {
-                $totalCost += $item['price'];
-            }
-        }
-    }
+    //         if ($hours <= 6) {
+    //             $totalCost += $item['priceh'] * $hours;
+    //         } else {
+    //             $days = intdiv($hours, 24);
+    //             $remainingHours = $hours % 24;
 
-    // Tạo bản ghi mới trong bảng rental_contracts
-    foreach ($cart as $item) {
-        DB::table('rental_contracts')->insert([
-            'CustomerID' => $user->id,
-            'VehicleID' => $item['vehicle_id'],
-            'RentalStartDate' => $request->rental_start_date,
-            'RentalEndDate' => $request->rental_end_date,
-            'TotalCost' => $totalCost,
-            'Status' => 'Đang chờ', // Trạng thái ban đầu
-            'StatusPayment' => 'Chưa thanh toán',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-    }
+    //             $totalCost += $item['price'] * $days;
+    //             if ($remainingHours <= 6) {
+    //                 $totalCost += $item['priceh'] * $remainingHours;
+    //             } else {
+    //                 $totalCost += $item['price'];
+    //             }
+    //         }
+    //     }
+
+    // // Tạo bản ghi mới trong bảng rental_contracts
+    // foreach ($cart as $item) {
+    //     DB::table('rental_contracts')->insert([
+    //         'CustomerID' => $user->id,
+    //         'VehicleID' => $item['vehicle_id'],
+    //         'RentalStartDate' => $request->rental_start_date,
+    //         'RentalEndDate' => $request->rental_end_date,
+    //         'TotalCost' => $totalCost,
+    //         'Status' => 'Đang chờ', // Trạng thái ban đầu
+    //         'StatusPayment' => 'Chưa thanh toán',
+    //         'created_at' => now(),
+    //         'updated_at' => now(),
+    //     ]);
+    // }
+
+
+    RentalContract::create([
+        'ContractID' => $contractId,
+        'CustomerID' => $user->id,
+        'VehicleID' => $vehicleId,
+        'RentalStartDate' => $request->rental_start_date,
+        'RentalEndDate' => $request->rental_end_date,
+        'TotalCost' => $totalCost,
+        'Status' => 'Đang chờ', // Trạng thái ban đầu
+        'StatusPayment' => 'Chưa thanh toán',
+        'payment_method' => $paymentMethod,
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]);
 
 
     // Cập nhật trạng thái của xe
-    DB::table('vehicles')->where('id', $item['vehicle_id'])->update([
+    DB::table('vehicles')->where('id', $vehicleId)->update([
         'status' => 'Đang thuê',
         'updated_at' => now(),
     ]);

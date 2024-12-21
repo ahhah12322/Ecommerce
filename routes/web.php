@@ -24,6 +24,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\MoMoController;
 use App\Http\Controllers\VnpayController;
+use App\Http\Controllers\CheckoutController;
 
 
 Route::post('/add-yeu-thich', [CartController::class, 'addToCart']);
@@ -107,6 +108,7 @@ Route::middleware(['checkSession', 'role:user'])->group(function () {
     Route::get('/momo-payment', [MoMoController::class, 'createPayment'])->name('momo.payment');
     Route::get('/momo-return', [MoMoController::class, 'momoReturn'])->name('momo.return');
     Route::post('/momo-notify', [MoMoController::class, 'momoNotify'])->name('momo.notify');
+    
     Route::post('/process-payment', [PaymentController::class, 'processPayment'])->name('process.payment');
 
     // Bank
@@ -122,7 +124,10 @@ Route::middleware(['checkSession', 'role:user'])->group(function () {
     // Route::get('/thanh-toan', function () {
     //     return view('user.main.checkout');
     // })->name('checkout');
-    Route::get('/checkout', [RentalContractController::class, 'showCheckout'])->name('checkout');
+    // Route::get('/checkout', [RentalContractController::class, 'showCheckout'])->name('checkout.show');
+    
+    Route::post('/checkout', [RentalContractController::class, 'showCheckout'])->name('checkout');
+    Route::post('/checkout/calculate', [CheckoutController::class, 'calculateTotalCost'])->name('checkout.calculate');
 
     Route::post('/complete-rental', [RentalContractController::class, 'completeRental'])->name('completeRental');
     // Quản lý đơn hàng
@@ -290,6 +295,10 @@ Route::middleware(['checkSession', 'role:admin'])->group(function () {
 Route::get('/error', function () {
     return view('errors.forbidden');
 })->name('forbidden');
+
+Route::get('/checkout', function () {
+    return view('errors.errcheckout');
+})->name('errcheckout');
 
 
 

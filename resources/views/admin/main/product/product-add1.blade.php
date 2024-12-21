@@ -303,11 +303,21 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-4">
-                            <label for="product-price" class="form-label">Giá thuê</label>
+                            <label for="product-price" class="form-label">Giá thuê theo ngày</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text fs-20"><i class='bx bx-dollar'></i></span>
                                 <input type="number" id="product-price" class="form-control" placeholder="000"
                                     name="rental_price_per_day">
+
+                            </div>
+
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="product-price" class="form-label">Giá thuê theo giờ</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text fs-20"><i class='bx bx-dollar'></i></span>
+                                <input type="number" id="product-price" class="form-control" placeholder="000"
+                                    name="rental_price_per_hour	">
 
                             </div>
 

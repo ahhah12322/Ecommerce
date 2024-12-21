@@ -21,6 +21,7 @@ class RentalContract extends Model
         'TotalCost', 
         'Status',
         'StatusPayment',
+        'payment_method',
         'DateCreated',
     ];
 

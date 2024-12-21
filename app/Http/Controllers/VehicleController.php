@@ -183,7 +183,9 @@ class VehicleController extends Controller
                 'location' => 'required|string',
                 'battery_capacity' => 'required|integer',
                 'max_range' => 'required|integer',
+                'rental_price_per_hour' => 'required|numeric',
                 'rental_price_per_day' => 'required|numeric',
+
                 'main_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Kiểm tra ảnh chính
                 'additional_images' => 'nullable|array',
                 'additional_images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Kiểm tra ảnh phụ
@@ -208,6 +210,8 @@ class VehicleController extends Controller
                 'status' => $status,
 
                 'rental_price_per_day' => $request->rental_price_per_day,
+                'rental_price_per_hour' => $request->rental_price_per_hour,
+
             ]);
 
             // Lưu ảnh chính vào bảng vehicle_images
@@ -370,7 +374,7 @@ class VehicleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request->all());
+        // dd($request->all());
         // Tìm phương tiện theo ID
         $vehicle = Vehicle::findOrFail($id);
 

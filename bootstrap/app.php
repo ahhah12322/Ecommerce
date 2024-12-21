@@ -5,6 +5,7 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use App\Http\Middleware\CheckUserSession;
 use App\Http\Middleware\RoleMiddleware;
+use App\Http\Middleware\TrackPageVisits;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -17,6 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'checkSession' => CheckUserSession::class,
             'role' => RoleMiddleware::class
         ]);
+        $middleware->append(TrackPageVisits::class);
 
     })
     ->withExceptions(function (Exceptions $exceptions) {

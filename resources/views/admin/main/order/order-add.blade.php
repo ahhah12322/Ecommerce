@@ -88,10 +88,11 @@
                                                     <div class="col-lg-6">
                                                         <div class="mb-3">
                                                             <label for="payment_method" class="form-label">Phương thức thanh toán : </label>
-                                                            <select class="form-select" id="payment_method" aria-label="Default select example">
-                                                                <option selected>Tiền mặt</option>
-                                                                <option value="Cancel">MoMo</option>
-                                                                <option value="Pending">Rental Pay</option>
+                                                            <select class="form-select" name="payment_method" id="payment_method" aria-label="Default select example">
+                                                                <option selected value="Cash">Tiền mặt</option>
+                                                                <option value="MoMo">MoMo</option>
+                                                                <option value="VNPay">VNPay</option>
+                                                                <option value="Bank">Bank</option>
                                                            </select>
                                                         </div>
                                                     </div>

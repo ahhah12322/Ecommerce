@@ -14,6 +14,7 @@ class Vehicle extends Model
 
     // Các cột có thể được gán giá trị hàng loạt
     protected $fillable = [
+        'id',
         'VehicleName',
         'vehicle_type_id',
         'BrandID',

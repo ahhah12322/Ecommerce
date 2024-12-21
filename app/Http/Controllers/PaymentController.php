@@ -10,7 +10,12 @@ class PaymentController extends Controller
     {
         $paymentMethod = $request->input('payment_method');
         $totalCost = $request->input('total_cost');
-        $contractID = $request->input('contract_id');
+        $contractID = $request->input('contract_id_input');
+
+         // Gọi hàm từ RentalContractController
+         $rentalController = new RentalContractController();
+         $rentalController->completeRental($request);
+ 
 
         switch ($paymentMethod) {
             case 'VNPAY':
@@ -33,23 +38,27 @@ class PaymentController extends Controller
 
     public function bankPayment(Request $request)
     {
+
         $totalCost = $request->input('amount');
         $contractID = $request->input('contract_id');
+        
+
+        if (!$contractID) {
+            return redirect()->back()->with('error', 'Không tìm thấy ContractID.');
+        }
 
         // Thông tin ngân hàng Agribank (ví dụ)
         $bankName = "Agribank";
-        $accountNumber = "123456789"; // Số tài khoản Agribank
-        $accountName = "Công Ty Cho Thuê Xe Điện";
+        $accountNumber = "2015220005962"; // Số tài khoản Agribank
+        $accountName = "NGUYEN BAO TIN";
         $note = "Don hang ma " . $contractID;
 
         // Tạo URL QR dựa vào VietQR API hoặc chuẩn mã QR
-        $qrCodeData = "https://api.vietqr.io/v2/generate?" . http_build_query([
-            'accountNo' => $accountNumber,
-            'accountName' => $accountName,
+        $qrCodeData = "https://img.vietqr.io/image/VBA-2015220005962-compact.png?" . http_build_query([
             'amount' => $totalCost,
             'addInfo' => $note,
-            'template' => 'compact',
         ]);
+        
 
         return view('user.main.bank-payment', [
             'bankName' => $bankName,

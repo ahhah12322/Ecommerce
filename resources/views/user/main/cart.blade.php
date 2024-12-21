@@ -30,11 +30,16 @@
                                 @foreach ($cart as $item)
                                     <tr>
                                         <td class="product-thumbnail">
-                                            <a href="#"><img src="assets/Frontend/img/cart/6.jpg"
-                                                    alt=""></a>
+                                            @if (isset($vehicleImages[$item['id']]['mainImage']))
+                                                <img src="{{ asset($vehicleImages[$item['id']]['mainImage']->ImageURL) }}"
+                                                    alt="Main Image">
+                                            @else
+                                                <p>No main image available.</p>
+                                            @endif
+
                                         </td>
                                         <td class="product-name">
-                                            <a href="#"> {{ $item['name'] }} </a>
+                                            <a href="chi-tiet/{{ $item['id'] }}"> {{ $item['name'] }} </a>
                                         </td>
                                         <td class="product-name">
                                             <a href="#"> {{ $item['brand'] }} </a>
@@ -44,7 +49,7 @@
                                         <td class="product-name">
                                             <a href="#"> {{ $item['seat'] }} </a>
                                         </td>
-                                        
+
                                         <td class="product-cart-icon product-subtotal">
                                             <form class="remove-item-form" data-product-id="{{ $item['id'] }}">
                                                 @csrf
@@ -76,7 +81,7 @@
                             <button class="btn-style cr-btn"><span>update</span></button>
                         </div>
                         <div class="update-cart">
-                            <a class="btn-style cr-btn" href="{{ route('checkout')}}">
+                            <a class="btn-style cr-btn" href="#">
                                 <span>checkout</span>
                             </a>
                         </div>

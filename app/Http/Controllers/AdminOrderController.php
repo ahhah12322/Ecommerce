@@ -42,6 +42,8 @@ class AdminOrderController extends Controller
             return back()->withErrors(['vehicle_id' => 'Xe đã được thuê hoặc không khả dụng.']);
         }
 
+        $paymentMethod = $request->input('payment_method');
+
 
         // Tính Cost
         $totalCost = 0;
@@ -82,6 +84,7 @@ class AdminOrderController extends Controller
             'TotalCost' => $totalCost, // Tính toán giá nếu cần
             'Status' => 'Đang chờ',
             'StatusPayment' => 'Chưa thanh toán',
+            'payment_method' => $paymentMethod,
             'creator' => $admin->name, // Tên admin hoặc 'system'
         ]);
 

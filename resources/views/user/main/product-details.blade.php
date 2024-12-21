@@ -116,8 +116,18 @@
                     </div>
                     <div class="quickview-plus-minus">
                         <div class="quickview-btn-cart">
-                            <a class="btn-style cr-btn" href="#"><span>Đặt Xe</span></a>
+
+
+                            <form id="checkout-form" method="POST" action="{{ route('checkout') }}" style="display: none;">
+                                @csrf
+                                <input type="hidden" name="vehicle_id" value="{{ $vehicle->id }}">
+                                {{-- <input type="hidden" name="user" value="{{ session('user') }}"> --}}
+                            </form>
+
+                            <a class="btn-style cr-btn" href="javascript:void(0);" onclick="submitCheckoutForm()" ><span>Đặt Xe</span></a>
                         </div>
+
+
                         <div class="quickview-btn-wishlist">
                             <a class="action-plus-2 p-action-none add-to-cart" title="Wishlist"
                                 data-product-id="{{ $vehicle->id }}" href="javascript:void(0)">
@@ -656,5 +666,12 @@
         });
     });
 </script>
+<script>
+    function submitCheckoutForm() {
+        document.getElementById('checkout-form').submit();
+    }
+</script>
+
+
 
 @include('user.app.footer')

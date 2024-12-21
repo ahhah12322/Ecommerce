@@ -33,7 +33,7 @@
                                                        </div> <!-- end col -->
                                                        <div class="col-6 text-end">
                                                             <p class="text-muted mb-0 text-truncate">Total Orders</p>
-                                                            <h3 class="text-dark mt-1 mb-0">13, 647</h3>
+                                                            <h3 class="text-dark mt-1 mb-0">{{ $totalOrders }}</h3>
                                                        </div> <!-- end col -->
                                                   </div> <!-- end row-->
                                              </div> <!-- end card body -->
@@ -59,7 +59,7 @@
                                                        </div> <!-- end col -->
                                                        <div class="col-6 text-end">
                                                             <p class="text-muted mb-0 text-truncate">New Leads</p>
-                                                            <h3 class="text-dark mt-1 mb-0">9, 526</h3>
+                                                            <h3 class="text-dark mt-1 mb-0">{{ $newLeads }}</h3>
                                                        </div> <!-- end col -->
                                                   </div> <!-- end row-->
                                              </div> <!-- end card body -->
@@ -111,7 +111,7 @@
                                                        </div> <!-- end col -->
                                                        <div class="col-6 text-end">
                                                             <p class="text-muted mb-0 text-truncate">Booked Revenue</p>
-                                                            <h3 class="text-dark mt-1 mb-0">$123.6k</h3>
+                                                            <h3 class="text-dark mt-1 mb-0">{{ $formattedRevenue }} VNĐ</h3>
                                                        </div> <!-- end col -->
                                                   </div> <!-- end row-->
                                              </div> <!-- end card body -->
@@ -129,12 +129,23 @@
                               </div> <!-- end row -->
                          </div> <!-- end col -->
 
+
+
+
+
+
+
+
+
+
+
+
                          <div class="col-xxl-7">
                               <div class="card">
                                    <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-center">
                                              <h4 class="card-title">Performance</h4>
-                                             <div>
+                                             <div>     
                                                   <button type="button" class="btn btn-sm btn-outline-light">ALL</button>
                                                   <button type="button" class="btn btn-sm btn-outline-light">1M</button>
                                                   <button type="button" class="btn btn-sm btn-outline-light">6M</button>
@@ -149,6 +160,15 @@
                               </div> <!-- end card -->
                          </div> <!-- end col -->
                     </div> <!-- end row -->
+
+
+
+
+
+
+
+
+
 
                     <div class="row">
                          <div class="col-lg-4">
@@ -193,6 +213,25 @@
                               </div> <!-- end card-->
                          </div> <!-- end col -->
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                         
+
                          <div class="col-lg-4">
                               <div class="card card-height-100">
                                    <div class="card-header d-flex align-items-center justify-content-between gap-2">
@@ -206,45 +245,15 @@
                                                   <tr>
                                                        <th class="text-muted ps-3">Page Path</th>
                                                        <th class="text-muted">Page Views</th>
-                                                       <th class="text-muted">Exit Rate</th>
                                                   </tr>
                                              </thead>
                                              <tbody>
+                                                  @foreach ($pageVisits as $visit)
                                                   <tr>
-                                                       <td class="ps-3"><a href="#" class="text-muted">larkon/ecommerce.html</a></td>
-                                                       <td>465 </td>
-                                                       <td><span class="badge badge-soft-success">4.4%</span></td>
+                                                      <td class="ps-3"><a href="#" class="text-muted">{{ $visit->page_url }}</td>
+                                                      <td>{{ $visit->visit_count }}</td>
                                                   </tr>
-                                                  <tr>
-                                                       <td class="ps-3"><a href="#" class="text-muted">larkon/dashboard.html</a></td>
-                                                       <td> 426</td>
-                                                       <td><span class="badge badge-soft-danger">20.4%</span></td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td class="ps-3"><a href="#" class="text-muted">larkon/chat.html</a></td>
-                                                       <td>254 </td>
-                                                       <td><span class="badge badge-soft-warning">12.25%</span></td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td class="ps-3"><a href="#" class="text-muted">larkon/auth-login.html</a></td>
-                                                       <td> 3369</td>
-                                                       <td><span class="badge badge-soft-success">5.2%</span></td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td class="ps-3"><a href="#" class="text-muted">larkon/email.html</a></td>
-                                                       <td>985 </td>
-                                                       <td><span class="badge badge-soft-danger">64.2%</span></td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td class="ps-3"><a href="#" class="text-muted">larkon/social.html</a></td>
-                                                       <td>653 </td>
-                                                       <td><span class="badge badge-soft-success">2.4%</span></td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td class="ps-3"><a href="#" class="text-muted">larkon/blog.html</a></td>
-                                                       <td>478 </td>
-                                                       <td><span class="badge badge-soft-danger">1.4%</span></td>
-                                                  </tr>
+                                              @endforeach
                                              </tbody>
                                         </table>
                                    </div>
@@ -336,7 +345,7 @@
                                                   Recent Orders
                                              </h4>
 
-                                             <a href="#!" class="btn btn-sm btn-soft-primary">
+                                             <a href="{{ Route('admin.order.add') }}" class="btn btn-sm btn-soft-primary">
                                                   <i class="bx bx-plus me-1"></i>Create Order
                                              </a>
                                         </div>
@@ -377,104 +386,24 @@
                                              </thead>
                                              <!-- end thead-->
                                              <tbody>
-                                                  <tr>
-                                                       <td class="ps-3">
-                                                            <a href="order-detail.html">#RB5625</a>
-                                                       </td>
-                                                       <td>29 April 2024</td>
-                                                       <td>
-                                                            <img src="assets/Backend/images/products/product-1(1).png" alt="product-1(1)" class="img-fluid avatar-sm">
-                                                       </td>
-                                                       <td>
-                                                            <a href="#!">Anna M. Hines</a>
-                                                       </td>
-                                                       <td>anna.hines@mail.com</td>
-                                                       <td>(+1)-555-1564-261</td>
-                                                       <td>Burr Ridge/Illinois</td>
-                                                       <td>Credit Card</td>
-                                                       <td>
-                                                            <i class="bx bxs-circle text-success me-1"></i>Completed
-                                                       </td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td class="ps-3">
-                                                            <a href="order-detail.html">#RB9652</a>
-                                                       </td>
-                                                       <td>25 April 2024</td>
-                                                       <td>
-                                                            <img src="assets/Backend/images/products/product-4.png" alt="product-4" class="img-fluid avatar-sm">
-                                                       </td>
-                                                       <td>
-                                                            <a href="#!">Judith H. Fritsche</a>
-                                                       </td>
-                                                       <td>judith.fritsche.com</td>
-                                                       <td>(+57)-305-5579-759</td>
-                                                       <td>SULLIVAN/Kentucky</td>
-                                                       <td>Credit Card</td>
-                                                       <td>
-                                                            <i class="bx bxs-circle text-success me-1"></i>Completed
-                                                       </td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td class="ps-3">
-                                                            <a href="order-detail.html">#RB5984</a>
-                                                       </td>
-                                                       <td>25 April 2024</td>
-                                                       <td>
-                                                            <img src="assets/Backend/images/products/product-5.png" alt="product-5" class="img-fluid avatar-sm">
-                                                       </td>
-                                                       <td>
-                                                            <a href="#!">Peter T. Smith</a>
-                                                       </td>
-                                                       <td>peter.smith@mail.com</td>
-                                                       <td>(+33)-655-5187-93</td>
-                                                       <td>Yreka/California</td>
-                                                       <td>Pay Pal</td>
-                                                       <td>
-                                                            <i class="bx bxs-circle text-success me-1"></i>Completed
-                                                       </td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td class="ps-3">
-                                                            <a href="order-detail.html">#RB3625</a>
-                                                       </td>
-                                                       <td>21 April 2024</td>
-                                                       <td>
-                                                            <img src="assets/Backend/images/products/product-6.png" alt="product-6" class="img-fluid avatar-sm">
-                                                       </td>
-                                                       <td>
-                                                            <a href="#!">Emmanuel J. Delcid</a>
-                                                       </td>
-                                                       <td>
-                                                            emmanuel.delicid@mail.com
-                                                       </td>
-                                                       <td>(+30)-693-5553-637</td>
-                                                       <td>Atlanta/Georgia</td>
-                                                       <td>Pay Pal</td>
-                                                       <td>
-                                                            <i class="bx bxs-circle text-primary me-1"></i>Processing
-                                                       </td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td class="ps-3">
-                                                            <a href="order-detail.html">#RB8652</a>
-                                                       </td>
-                                                       <td>18 April 2024</td>
-                                                       <td>
-                                                            <img src="assets/Backend/images/products/product-1(2).png" alt="product-1(2)" class="img-fluid avatar-sm">
-                                                       </td>
-                                                       <td>
-                                                            <a href="#!">William J. Cook</a>
-                                                       </td>
-                                                       <td>william.cook@mail.com</td>
-                                                       <td>(+91)-855-5446-150</td>
-                                                       <td>Rosenberg/Texas</td>
-                                                       <td>Credit Card</td>
-                                                       <td>
-                                                            <i class="bx bxs-circle text-primary me-1"></i>Processing
-                                                       </td>
-                                                  </tr>
-                                             </tbody>
+                                                  @forelse ($orders as $order)
+                                                      <tr>
+                                                          <td>{{ $order->order_id }}</td>
+                                                          <td>{{ \Carbon\Carbon::parse($order->date)->format('d/m/Y') }}</td>
+                                                          <td>{{ $order->product }}</td>
+                                                          <td>{{ $order->customer_name }}</td>
+                                                          <td>{{ $order->email_id }}</td>
+                                                          <td>{{ $order->phone_no }}</td>
+                                                          <td>{{ $order->address }}</td>
+                                                          <td>{{ $order->payment_type }}</td>
+                                                          <td>{{ $order->status }}</td>
+                                                      </tr>
+                                                  @empty
+                                                      <tr>
+                                                          <td colspan="9" class="text-center">No orders found</td>
+                                                      </tr>
+                                                  @endforelse
+                                              </tbody>
                                              <!-- end tbody -->
                                         </table>
                                         <!-- end table -->
@@ -488,7 +417,7 @@
                                                        Showing
                                                        <span class="fw-semibold">5</span>
                                                        of
-                                                       <span class="fw-semibold">90,521</span>
+                                                       <span class="fw-semibold">{{ $totalOrders }}</span>
                                                        orders
                                                   </div>
                                              </div>

@@ -22,11 +22,11 @@ return new class extends Migration
             $table->string('color'); // Màu sắc
             $table->string('license_plate'); // Biển số
             $table->integer('seat_number'); // Số ghế
-            $table->string('chassis_number'); // Số khung
+            $table->string('chassis_number'); // Số khung       
             $table->string('engine_number'); // Số máy
             $table->string('vehicle_color'); // Màu xe
             $table->text('description')->nullable(); // Mô tả
-            $table->string('location'); // Địa điểm xe
+            $table->enum('location', ['Đà Nẵng', 'Hồ Chí Minh', 'Hà Nội'])->default('Hà Nội'); // Địa điểm xe
             $table->integer('battery_capacity'); // Dung lượng pin
             $table->integer('max_range'); // Quãng đường di chuyển tối đa
             $table->enum('status', ['Sẵn sàng', 'Đang thuê', 'Bảo trì'])->default('Sẵn sàng'); // Trạng thái xe

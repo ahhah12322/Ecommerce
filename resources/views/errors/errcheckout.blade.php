@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forbidden</title>
+    <title>Thất bại</title>
     <style>
         body {
             text-align: center;
@@ -18,11 +18,12 @@
 </head>
 <body>
     <h1 class="error">403 - Forbidden</h1>
-    <p>Bạn không có quyền truy cập trang này.</p>
-    @if (session('user'))
-    <a href="{{ route('index') }}">Quay lại trang chủ</a>
-    @else 
-    <a href="{{ route('login') }}">Quay lại trang đăng nhập</a>
+    <p>Thông tin xe không hợp lệ</p>
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
     @endif
+    <a href="{{ route('index') }}">Quay lại trang chủ</a>
 </body>
 </html>
