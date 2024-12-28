@@ -18,11 +18,11 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th class="VehicleName">Tên Xe</th>
-                                    <th class="rental_price_per_day">Giá Thuê</th>
+                                    <th class="VehicleName">Hình ảnh</th>
+                                    <th class="rental_price_per_day">Tên xe</th>
                                     <th class="BrandID">Hãng Xe</th>
-                                    <th class="seat_number">Số Ghế</th>
-                                    <th class="location">Địa Điểm</th>
+                                    <th class="seat_number">Số chỗ</th>
+                                    <th class="price">Giá Theo Ngày</th>
                                     <th class="delete-cart">Xóa</th>
                                 </tr>
                             </thead>
@@ -36,19 +36,21 @@
                                             @else
                                                 <p>No main image available.</p>
                                             @endif
+                                            
 
                                         </td>
                                         <td class="product-name">
                                             <a href="chi-tiet/{{ $item['id'] }}"> {{ $item['name'] }} </a>
                                         </td>
+                                        
                                         <td class="product-name">
                                             <a href="#"> {{ $item['brand'] }} </a>
                                         </td>
-                                        <td class="product-price"><span
-                                                class="amount">{{ number_format($item['price']) }}đ/ngày</span></td>
                                         <td class="product-name">
                                             <a href="#"> {{ $item['seat'] }} </a>
                                         </td>
+                                        <td class="product-price"><span
+                                                class="amount">{{ number_format($item['price']) }}đ/ngày</span></td>
 
                                         <td class="product-cart-icon product-subtotal">
                                             <form class="remove-item-form" data-product-id="{{ $item['id'] }}">
@@ -89,7 +91,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-md-7 col-sm-6">
                 <div class="discount-code">
                     <h4>enter your discount code</h4>
@@ -144,14 +146,14 @@
             
                     <div class="cart-btn text-center mb-15">
                         {{-- <button type="submit" class="btn btn-primary">Thanh Toán</button> --}}
-                        <button type="submit" class="cart-btn">Thanh Toán</button>
+                        {{-- <button type="submit" class="cart-btn">Thanh Toán</button>
                     </div>
                 </form>
                 
                 <div class="continue-shopping-btn text-center">
                     <a href="#">Continue Shopping</a>
                 </div>
-            </div>
+            </div> --}}
             
         </div>
     </div>

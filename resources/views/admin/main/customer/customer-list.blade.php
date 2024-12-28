@@ -142,7 +142,7 @@
                                                        <th>Address</th>
                                                        <th>Phone</th>
                                                        <th>CCCD</th>
-                                                       <th>Payment Method</th>
+                                                       {{-- <th>Payment Method</th> --}}
                                                        <th>Action</th>
                                                   </tr>
                                              </thead>
@@ -167,7 +167,7 @@
                                                        <td> {{ $customer->address ?? 'chưa nhập' }} </td>
                                                        <td> {{ $customer->phone ?? 'chưa nhập' }} </td>
                                                        <td> {{ $customer->CCCD ?? 'chưa nhập' }}</td>
-                                                       <td> Mastercard </td>
+                                                       {{-- <td> Mastercard </td> --}}
                                                        <td>
                                                             <div class="d-flex gap-2">  
                                                                  <a href="{{ route('customer.detail', $customer->id) }}" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
@@ -180,18 +180,16 @@
                                              </tbody>
                                         </table>
                                    </div>
-                                   <button type="submit">Thực hiện</button>
                                    </form>
                                    <!-- end table-responsive -->
                               </div>
                               <div class="card-footer border-top">
                                    <nav aria-label="Page navigation example">
                                         <ul class="pagination justify-content-end mb-0">
-                                             <li class="page-item"><a class="page-link" href="javascript:void(0);">Previous</a></li>
-                                             <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
-                                             <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
-                                             <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
-                                             <li class="page-item"><a class="page-link" href="javascript:void(0);">Next</a></li>
+                                             <!-- Hiển thị nút phân trang -->
+                                            <div class="d-flex justify-content-center">
+                                                {{ $customers->links() }}
+                                            </div>
                                         </ul>
                                    </nav>
                               </div>

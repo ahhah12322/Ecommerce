@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use DateTime;
+use App\Models\VehicleImage;
 
 
 class RentalContractController extends Controller
@@ -59,7 +60,28 @@ class RentalContractController extends Controller
         //     'vehiclePriceh' => $vehiclePriceh,
         //     'user' => $user, // Truyền thông tin user vào view
         // ]);
-        return view('user.main.checkout', compact('vehicle', 'user'));
+
+        // Mảng để lưu ảnh chính và ảnh phụ của từng xe
+        $vehicleImages = [];
+
+        // Duyệt qua từng xe để lấy ảnh chính và ảnh phụ
+            // Lấy ảnh chính của từng xe (IsMainImage = 1)
+            $mainImage = VehicleImage::where('VehicleID', $vehicle->id)
+                ->where('IsMainImage', 1) // Lọc ảnh chính
+                ->first();
+
+            // Lấy ảnh phụ của từng xe (IsMainImage = 0)
+            $additionalImages = VehicleImage::where('VehicleID', $vehicle->id)
+                ->where('IsMainImage', 0) // Lọc ảnh phụ
+                ->get();
+
+            // Lưu ảnh chính và ảnh phụ của xe vào mảng
+            $vehicleImages[$vehicle->id] = [
+                'mainImage' => $mainImage,
+                'additionalImages' => $additionalImages,
+            ];
+
+        return view('user.main.checkout', compact('vehicle', 'user', 'vehicleImages'));
 
     }
 
@@ -212,8 +234,14 @@ class RentalContractController extends Controller
     // Hiển thị danh sách đơn hàng
     public function orderList()
     {
-        $orders = RentalContract::with(['customer', 'vehicle'])->get();
-        return view('admin.main.order.orders-list', compact('orders'));
+
+        $deliveredCount = RentalContract::where('StatusPayment', 'Đã thanh toán')->count();
+        $pendingCount = RentalContract::where('StatusPayment', 'Chưa thanh toán')->count();
+        $depositCount = RentalContract::where('StatusPayment', 'Đã cọc')->count();
+        $compensationCount = RentalContract::where('StatusPayment', 'Đền bù')->count();
+
+        $orders = RentalContract::with(['customer', 'vehicle'])->paginate(5);
+        return view('admin.main.order.orders-list', compact('orders','deliveredCount', 'pendingCount', 'depositCount', 'compensationCount'));
     }
 
 

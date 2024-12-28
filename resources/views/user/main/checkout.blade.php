@@ -31,7 +31,8 @@
                                     <tbody>
                                         <tr>
                                             <td class="product-thumbnail">
-                                                <a href="#"><img src="assets/img/cart/4.jpg" alt=""></a>
+                                                <a href="#"><img src="{{ asset($vehicleImages[$vehicle->id]['mainImage']->ImageURL) }}"
+                                                    alt="Main Image"></a>
                                             </td>
                                             <td class="product-name">
                                                 <a href="/chi-tiet/{{ $vehicle->id }}">{{ $vehicle->VehicleName }}</a>
@@ -76,6 +77,23 @@
                             {{ session('success') }}: {{ number_format(session('totalCost', 0, ',', '.')) }} VNĐ
                         </div>
                     @endif
+
+                    @if($vehicle->location == 'Đà Nẵng')
+                        <div class="product-overview">
+                            <h5 class="pd-sub-title">Địa điểm Chi Nhánh</h5>
+                            <p>Chi Nhánh Đà nẵng - số 100 Tây Sơn, Ngũ Hành Sơn, Đà Nẵng</p>
+                        </div>
+                    @elseif($vehicle->location == 'Hà Nội')
+                    <div class="product-overview">
+                        <h5 class="pd-sub-title">Địa điểm Chi Nhánh</h5>
+                            <p>Chi Nhánh Hà Nội - số 123 Trần Hưng Đạo, Hà Nội</p>
+                        </div>
+                    @elseif($vehicle->location == 'Hồ Chí Minh')
+                    <div class="product-overview">
+                        <h5 class="pd-sub-title">Địa điểm Chi Nhánh</h5>
+                        <p>Chi Nhánh Hồ Chí Minh - số 456 Nguyễn Trãi, Hồ Chí Minh </p>
+                        </div>
+                    @endif
                 </div>
             </div>
 
@@ -84,32 +102,36 @@
                     <h3>Kiểm Tra Thanh Toán</h3>
                     <ul>
                         <li>
-                            Mã hợp đồng
-                            <span>{{ $ContractID ?? 1000 }}</span>
+                            Địa Chỉ
+                            <span>Chi Nhánh {{ $vehicle->location }}</span>
                         </li>
                         <li>
-                            Sub Total
-                            <span>$909.00</span>
+                            Ngày Nhận Xe
+                            <span id="display_rental_start_date"></span>
                         </li>
                         <li>
-                            Tax
-                            <span>$9.00</span>
+                            Ngày Trả Xe Dự Kiến
+                            <span id="display_rental_end_date"></span>
                         </li>
                         <li class="order-total">
                             Shipping
                             <span>0</span>
                         </li>
                         <li>
-                            Order Total
                             <div id="total-cost" style="margin-top: 15px; font-weight: bold;">Tổng chi phí: 0 VNĐ</div>
                         </li>
                     </ul>
+                </div>
+
+
+                <div id="error-message" class="alert alert-danger" style="display: none;">
+                    Vui lòng chọn ngày và tổng chi phí.
                 </div>
                 
 
 
                 <!-- Form Thanh Toán -->
-                <form action="{{ route('process.payment') }}" method="POST">
+                <form id="form-checkout"action="{{ route('process.payment') }}" method="POST">
                     @csrf
                     <div class="form-group">
                         <label for="payment_method">Chọn phương thức thanh toán:</label>
@@ -127,9 +149,13 @@
                     <input type="hidden" id="hidden_rental_start_date" name="rental_start_date" value="">
                     <input type="hidden" id="hidden_rental_end_date" name="rental_end_date" value="">
             
-                    <div class="cart-btn text-center mb-15">
+                    {{-- <div class="cart-btn text-center mb-15">
                         {{-- <button type="submit" class="btn btn-primary">Thanh Toán</button> --}}
-                        <button type="submit" class="cart-btn">Thanh Toán</button>
+                        {{-- <button type="submit" class="cart-btn">Thanh Toán</button>
+                    </div> --}}
+
+                    <div class="cart-btn text-center mb-15">
+                        <a href="javascript:void(0);" id="checkout-button" >Thanh Toán</a>
                     </div>
                 </form>
                 
@@ -226,19 +252,49 @@
     const rentalEndDateInput = document.getElementById('rental_end_date');
     const hiddenRentalStartDateInput = document.getElementById('hidden_rental_start_date');
     const hiddenRentalEndDateInput = document.getElementById('hidden_rental_end_date');
+    const displayRentalStartDate = document.getElementById('display_rental_start_date');
+    const displayRentalEndDate = document.getElementById('display_rental_end_date');
+
+    // Hàm định dạng thời gian
+    function formatDateTime(dateTimeString) {
+        if (!dateTimeString) return '--:--AM dd/MM/yy';
+        const date = new Date(dateTimeString);
+        const hours = date.getHours();
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        const formattedHours = (hours % 12 || 12).toString().padStart(2, '0');
+        return `${formattedHours}:${minutes}${ampm} ${day}/${month}/${year}`;
+    }
+    
 
     // Đồng bộ giá trị khi người dùng thay đổi
     rentalStartDateInput.addEventListener('change', function () {
+        const formattedStartDate = formatDateTime(rentalStartDateInput.value);
         hiddenRentalStartDateInput.value = rentalStartDateInput.value;
+        displayRentalStartDate.textContent = formattedStartDate;
     });
 
     rentalEndDateInput.addEventListener('change', function () {
+        const formattedEndDate = formatDateTime(rentalEndDateInput.value);
         hiddenRentalEndDateInput.value = rentalEndDateInput.value;
+        displayRentalEndDate.textContent = formattedEndDate;
     });
 
     // Nếu đã có giá trị ban đầu, đồng bộ khi trang tải
+    const formattedStartDate = formatDateTime(rentalStartDateInput.value);
+    const formattedEndDate = formatDateTime(rentalEndDateInput.value);
     hiddenRentalStartDateInput.value = rentalStartDateInput.value;
     hiddenRentalEndDateInput.value = rentalEndDateInput.value;
+    displayRentalStartDate.textContent = hiddenRentalStartDateInput.value;
+    displayRentalEndDate.textContent = hiddenRentalEndDateInput.value;
+
+    // Nếu chưa có giá trị 
+    displayRentalStartDate.textContent = '--:--AM dd/MM/yy';
+    displayRentalEndDate.textContent =  '--:--AM dd/MM/yy';
+    
 });
 
 </script>
@@ -305,6 +361,27 @@
             return day + month + year + hour + minute;
         }
     });
+</script>
+<script>
+    document.getElementById('checkout-button').addEventListener('click', function (e) {
+    e.preventDefault(); // Ngăn chặn hành động mặc định của nút
+
+    // Lấy giá trị từ các input ẩn
+    const rentalStartDate = document.getElementById('hidden_rental_start_date').value;
+    const rentalEndDate = document.getElementById('hidden_rental_end_date').value;
+    const totalCost = document.getElementById('total_cost_input').value;
+
+    // Kiểm tra điều kiện
+    if (!rentalStartDate || !rentalEndDate || !totalCost || parseFloat(totalCost) <= 0) {
+        // Hiển thị thông báo lỗi nếu điều kiện không thỏa mãn
+        const errorMessage = document.getElementById('error-message');
+        errorMessage.style.display = 'block';
+        errorMessage.textContent = 'Vui lòng chọn ngày và tổng chi phí.';
+    } else {
+        // Submit form nếu tất cả điều kiện đều thỏa mãn
+        document.getElementById('form-checkout').submit();
+    }
+});
 </script>
 
 

@@ -62,7 +62,7 @@ class PaymentController extends Controller
 
         return view('user.main.bank-payment', [
             'bankName' => $bankName,
-            'accountNumber' => $accountNumber,
+            'accountNumber' => $accountNumber,  
             'accountName' => $accountName,
             'amount' => $totalCost,
             'note' => $note,

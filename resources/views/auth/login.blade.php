@@ -16,6 +16,11 @@
                         <div class="tab-content">
                             <div id="lg1" class="tab-pane active">
                                 <div class="login-form-container">
+                                    @if (session('error'))
+                                        <div class="alert alert-danger">
+                                            {{ session('error') }}
+                                        </div>
+                                    @endif
                                     @if (session('message'))
                                         <div class="alert alert-{{ session('type') }}">
                                             {{ session('message') }}

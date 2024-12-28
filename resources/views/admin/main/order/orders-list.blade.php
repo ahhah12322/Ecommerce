@@ -191,7 +191,7 @@
                                                                  <th>RentalEndDate</th>
                                                                  <th>Total</th>
                                                                  <th>Payment Status</th>
-                                                                 <th>Items</th>
+                                                                 {{-- <th>Items</th> --}}
                                                                  <th>Order Status</th>
                                                                  <th>Action</th>
                                                             </tr>
@@ -211,13 +211,13 @@
                                                                  <td> {{ $order->RentalStartDate }}</td>
                                                                  <td> {{ $order->RentalEndDate }}</td>
                                                                  <td>{{ $order->TotalCost }}</td>
-                                                                 <td> <span class="badge bg-light text-dark  px-2 py-1 fs-13">{{ $order->StatusPayment ?? 'Chưa thanh toán' }}</span></td>
-                                                                 <td> 4</td>    
-                                                                 <td> <span class="badge border border-secondary text-secondary    px-2 py-1 fs-13">{{ $order->Status ?? 'Đang chờ' }}</span></td>
+                                                                 <td> <span class="badge bg-light text-dark  px-2 py-1 fs-13">{{ $order->StatusPayment }}</span></td>
+                                                                 {{-- <td> 4</td>     --}}
+                                                                 <td> <span class="badge border border-secondary text-secondary    px-2 py-1 fs-13">{{ $order->Status }}</span></td>
                                                                  <td>
                                                                       <div class="d-flex gap-2">
                                                                            <a href="{{ route('order.detail', $order->ContractID ) }}" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
-                                                                           <a href="#!" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                                           {{-- <a href="#!" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a> --}}
                                                                            <a href="#!" class="btn btn-soft-danger btn-sm"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></a>
                                                                       </div>
                                                                  </td>
@@ -231,11 +231,10 @@
                                         <div class="card-footer border-top">
                                              <nav aria-label="Page navigation example">
                                                   <ul class="pagination justify-content-end mb-0">
-                                                       <li class="page-item"><a class="page-link" href="javascript:void(0);">Previous</a></li>
-                                                       <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
-                                                       <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
-                                                       <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
-                                                       <li class="page-item"><a class="page-link" href="javascript:void(0);">Next</a></li>
+                                                       <!-- Hiển thị nút phân trang -->
+                                                       <div class="d-flex justify-content-center">
+                                                            {{ $orders->links() }}
+                                                       </div>
                                                   </ul>
                                              </nav>
                                         </div>

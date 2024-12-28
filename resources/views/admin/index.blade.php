@@ -16,11 +16,11 @@
                     <div class="row">
                          <div class="col-xxl-5">
                               <div class="row">
-                                   <div class="col-12">
+                                   {{-- <div class="col-12">
                                         <div class="alert alert-primary text-truncate mb-3" role="alert">
                                              We regret to inform you that our server is currently experiencing technical difficulties.
                                         </div>
-                                   </div>
+                                   </div> --}}
 
                                    <div class="col-md-6">
                                         <div class="card overflow-hidden">
@@ -260,6 +260,12 @@
                               </div>
                          </div> <!-- end col -->
 
+
+
+
+
+
+
                          <div class="col-xl-4 d-none">
                               <div class="card">
                                    <div class="card-header d-flex justify-content-between align-items-center">
@@ -281,7 +287,7 @@
                                                             <td>Commisions </td>
                                                        </tr>
                                                        <tr>
-                                                            <td>24 April, 2024</td>
+                                                            <td>24 April, 2024</td>  
                                                             <td>$9.68</td>
                                                             <td><span class="badge bg-success">Cr</span></td>
                                                             <td>Affiliates </td>
@@ -424,21 +430,10 @@
 
                                              <div class="col-sm-auto">
                                                   <ul class="pagination m-0">
-                                                       <li class="page-item">
-                                                            <a href="#" class="page-link"><i class="bx bx-left-arrow-alt"></i></a>
-                                                       </li>
-                                                       <li class="page-item active">
-                                                            <a href="#" class="page-link">1</a>
-                                                       </li>
-                                                       <li class="page-item">
-                                                            <a href="#" class="page-link">2</a>
-                                                       </li>
-                                                       <li class="page-item">
-                                                            <a href="#" class="page-link">3</a>
-                                                       </li>
-                                                       <li class="page-item">
-                                                            <a href="#" class="page-link"><i class="bx bx-right-arrow-alt"></i></a>
-                                                       </li>
+                                                       <!-- Hiển thị nút phân trang -->
+                                                       <div class="d-flex justify-content-center">
+                                                            {{ $orders->links() }}
+                                                       </div>
                                                   </ul>
                                              </div>
                                         </div>

@@ -45,7 +45,11 @@ class AuthController extends Controller
 
                 session()->put('user', $user);
 
-                if ($user->role === 'admin') {
+                if ($user->status === 'inactive') {
+                    return redirect()->route('login')->with('error', 'Tài khoản của bạn không hoạt động. Vui lòng liên hệ với quản trị viên.');
+                }
+
+                else if ($user->role === 'admin' || $user->role === 'staff') {
                     return redirect()->route('admin');
                 } else {
                     return redirect()->route('index');
@@ -126,7 +130,7 @@ class AuthController extends Controller
         ]);
 
         try {
-            if (!User::where('email', $request->input('email'))->exists()) {
+            if (User::where('email', $request->input('email'))->exists()) {
                 // Email không tồn tại trong cơ sở dữ liệu
                 return redirect()->back()->with([
                     'message' => 'Email đã tồn tại!',

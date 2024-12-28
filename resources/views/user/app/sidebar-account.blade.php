@@ -19,7 +19,7 @@
                                     <div>
                                         <p><a href="/tai-khoan">Thông tin tài khoản</a></p>
                                         <p><a href="/doi-thong-tin">Thay đổi thông tin</a></p>
-                                        <p><a href="/lich-su">Lịch sử thuê xe</a></p>
+                                        <p><a href="{{ route('user.history')}}">Lịch sử thuê xe</a></p>
                                         <p><a href="/doi-mat-khau">Đổi mật khẩu</a></p>
                                         <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                                             @csrf

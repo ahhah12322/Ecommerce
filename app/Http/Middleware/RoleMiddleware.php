@@ -19,7 +19,7 @@ class RoleMiddleware
             return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để truy cập trang này.');
         }
 
-        if ($user->role !== $role) {
+        if (!in_array($user->role, explode('|', $role))) {
             // Nếu vai trò không phù hợp, từ chối truy cập
             return redirect()->route('forbidden')->with('error', 'Bạn không có quyền truy cập trang này.');
         }

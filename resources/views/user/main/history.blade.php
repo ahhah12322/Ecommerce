@@ -33,70 +33,57 @@
                         <div class="checkbox-form">
                             <h3>Lịch sử thuê xe</h3>
                             <div class="row">
-                                <div class="history-car">
+                                @forelse ($rentalContracts as $contract)
+                                <div class="history-car mb-4">
                                     <div class="row">
                                         <div class="col-md-5">
-                                            <img src="assets/Frontend/img/product/honda-air-blade.png" alt="">
+                                            <a href="/chi-tiet/{{ $vehicle->id }}">
+                                                @if (isset($vehicleImages[$vehicle->id]['mainImage']))
+                                                    <img src="{{ asset($vehicleImages[$vehicle->id]['mainImage']->ImageURL) }}"
+                                                        alt="Main Image">
+                                                @else
+                                                    <p>No main image available.</p>
+                                                @endif
+                                            </a>
                                         </div>
                                         <div class="col-md-7">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <h4>Honda Air Blade</h4>
-
+                                                    {{-- Hiển thị tên xe --}}
+                                                    <h4>{{ $contract->vehicle->VehicleName ?? 'Xe không xác định' }}</h4>
                                                 </div>
                                                 <div class="col-md-6 text-right">
-                                                    <a href="" class="btn btn-warning">Chi tiết</a>
+                                                    {{-- Nút xem chi tiết --}}
+                                                    {{-- <a href="{{ route('rental.details', ['id' => $contract->id]) }}" class="btn btn-warning">Chi tiết</a> --}}
+                                                    <a href="#" class="btn btn-warning">Chi tiết</a>
                                                 </div>
                                                 <div class="col-md-12">
-                                                    <p class="text-danger">Trạng thái: Đã thanh toán</p>
+                                                    {{-- Hiển thị trạng thái thanh toán --}}
+                                                    <p class="text-danger">Trạng thái: {{ $contract->StatusPayment }}</p>
                                                 </div>
-
                                             </div>
-
+                                            
                                             <hr>
                                             <div>
-                                                <p>Bắt đầu: 9:00 Ngày 20-11-2019 </p>
-                                                <p>Kết thúc: 9:00 Ngày 21-11-2019 </p>
-                                                <h5>Tổng tiền: 1,000,000 vnđ</h5>
-
+                                                {{-- Hiển thị ngày bắt đầu và kết thúc --}}
+                                                <p>Bắt đầu: {{ $contract->RentalEndDate ?? 'N/A' }}</p>
+                                                <p>Kết thúc: {{ $contract->RentalEndDate ?? 'N/A' }}</p>
+                                                {{-- Hiển thị tổng tiền --}}
+                                                <h5>Tổng tiền: {{ number_format($contract->TotalCost) }} vnđ</h5>
                                             </div>
-
                                         </div>
-
                                     </div>
                                 </div>
-                                <div class="history-car">
-                                    <div class="row">
-                                        <div class="col-md-5">
-                                            <img src="assets/Frontend/img/product/honda-air-blade.png" alt="">
-                                        </div>
-                                        <div class="col-md-7">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <h4>Honda Air Blade</h4>
-
-                                                </div>
-                                                <div class="col-md-6 text-right">
-                                                    <a href="" class="btn btn-warning">Chi tiết</a>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <p class="text-danger">Trạng thái: Đã thanh toán</p>
-                                                </div>
-
-                                            </div>
-
-                                            <hr>
-                                            <div>
-                                                <p>Bắt đầu: 9:00 Ngày 20-11-2019 </p>
-                                                <p>Kết thúc: 9:00 Ngày 21-11-2019 </p>
-                                                <h5>Tổng tiền: 1,000,000 vnđ</h5>
-
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-                                </div>
+                            @empty
+                                {{-- Hiển thị thông báo nếu không có lịch sử --}}
+                                <p>Chưa có lịch sử thuê xe.</p>
+                            @endforelse
+                        
+                            {{-- Phân trang --}}
+                            <div class="mt-4">
+                                {{ $rentalContracts->links() }}
+                            </div>
+                        </div>
 
 
                             </div>

@@ -54,6 +54,7 @@ class CartController extends Controller
             'brand' => $vehicle->BrandID,
             'seat' => $vehicle->seat_number,
         ];
+        
 
         // Lưu giỏ hàng vào cookie
         Cookie::queue('cart', json_encode($cart), 60 * 24); // Lưu trong 24 giờ

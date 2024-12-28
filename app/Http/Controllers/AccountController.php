@@ -37,7 +37,7 @@ class AccountController extends Controller
             // Nếu chưa đăng nhập, chuyển hướng tới trang login
             return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để truy cập trang này.');
         }
-        if ($user->role == 'admin') {
+        if ($user->role == 'admin' || $user->role == 'staff') {
             $vehicles = Vehicle::all(); // Lấy tất cả dữ liệu từ bảng vehicles
             $users = User::all();       // Lấy tất cả dữ liệu từ bảng users
             $pageVisits = DB::table('page_visits')

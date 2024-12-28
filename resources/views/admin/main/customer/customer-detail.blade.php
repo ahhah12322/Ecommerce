@@ -250,7 +250,7 @@
                                                   <table class="table align-middle mb-0 table-hover table-centered">
                                                        <thead class="bg-light-subtle">
                                                             <tr>
-                                                                 <th>Invoice ID</th>
+                                                                 <th>ContractID</th>
                                                                  <th>Status</th>
                                                                  <th>Total Amount</th>
                                                                  <th>Due Date</th>
@@ -265,38 +265,15 @@
                                                                  <td> 07 Jan, 2023</td>
                                                                  <td> Mastercard </td>
                                                             </tr>
-
-                                                            <tr>
-                                                                 <td><a href="javascript: void(0);" class="text-body">#INV3924</a> </td>
-                                                                 <td> <span class="badge bg-danger-subtle text-danger px-2 py-1">Cancel</span> </td>
-                                                                 <td> $736.00 </td>
-                                                                 <td> 03 Dec, 2023</td>
-                                                                 <td> Visa </td>
-                                                            </tr>
-
-                                                            <tr>
-                                                                 <td><a href="javascript: void(0);" class="text-body">#INV5032</a> </td>
-                                                                 <td>
-                                                                      <span class="badge bg-success-subtle text-success py-1 px-2">Completed</span>
-                                                                 </td>
-                                                                 <td> $347.00</td>
-                                                                 <td> 28 Sep, 2023 </td>
-                                                                 <td> Paypal </td>
-                                                            </tr>
-                                                            <tr>
-                                                                 <td><a href="javascript: void(0);" class="text-body">#INV1695</a> </td>
-                                                                 <td><span class="badge bg-primary-subtle text-primary py-1 px-2">Pending</span></td>
-                                                                 <td> $457.00 </td>
-                                                                 <td>10 Aug, 2023</td>
-                                                                 <td> Mastercard</td>
-                                                            </tr>
-                                                            <tr>
-                                                                 <td><a href="javascript: void(0);" class="text-body">#INV8473</a> </td>
-                                                                 <td> <span class="badge bg-success-subtle text-success px-2 py-1 ">Completed</span></td>
-                                                                 <td> $414.00</td>
-                                                                 <td> 22 May, 2023 </td>
-                                                                 <td> Visa</td>
-                                                            </tr>
+                                                            @foreach ($rentalContracts as $contract)
+                                                                 <tr>
+                                                                      <td>{{ $contract->ContractID }}</td>
+                                                                      <td>{{ $contract->Status }}</td>
+                                                                      <td>{{ number_format($contract->TotalCost, 0, ',', '.') }} ₫</td>
+                                                                      <td>{{ $contract->DateCreated }}</td>
+                                                                      <td>{{ $contract->payment_method }}</td>     
+                                                                 </tr>
+                                                            @endforeach
                                                        </tbody>
                                                   </table>
                                              </div>

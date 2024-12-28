@@ -25,6 +25,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\MoMoController;
 use App\Http\Controllers\VnpayController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\StaffController;
 
 
 Route::post('/add-yeu-thich', [CartController::class, 'addToCart']);
@@ -141,14 +142,15 @@ Route::middleware(['checkSession', 'role:user'])->group(function () {
 
 
     ##### lịch sử đặt xe ############
-    Route::get('/lich-su', function () {
-        return view('user.main.history');
-    })->name('history');
+    // Route::get('/lich-su', function () {
+    //     return view('user.main.history');
+    // })->name('history');
+    Route::get('/lich-su', [UserController::class, 'history'])->name('user.history');
 
-    ##### Quên mật khẩu ############
-    Route::get('/quen-mat-khau', function () {
-        return view('user.main.forgot-password');
-    })->name('forgot-password');
+    // ##### Quên mật khẩu ############
+    // Route::get('/quen-mat-khau', function () {
+    //     return view('user.main.forgot-password');
+    // })->name('forgot-password');
 
     Route::get('/tai-khoan', [AccountController::class, 'index'])->name('account');
     ##### Thay đổi thông tin cá nhân ############
@@ -223,7 +225,7 @@ Route::get('/tim-xe', [VehicleController::class, 'search'])->name('vehicle.searc
 
 
 
-Route::middleware(['checkSession', 'role:admin'])->group(function () {
+Route::middleware(['checkSession', 'role:admin|staff'])->group(function () {
 
         ///ADMIN
     Route::get('/admin', [AccountController::class, 'index'])->name('admin');
@@ -274,6 +276,14 @@ Route::middleware(['checkSession', 'role:admin'])->group(function () {
         Route::delete('/remove-image/{ImageID}', [VehicleController::class, 'removeImage'])->name('remove.image');
 
 
+        // Roles 
+        Route::post('/admin/role/add', [StaffController::class, 'store'])->name('roles.add');
+        Route::get('/admin/role', [StaffController::class, 'index'])->name('roles.index');
+        Route::get('/admin/roles/edit/{id}', [StaffController::class, 'edit'])->name('roles.edit');
+        Route::get('/admin/role/add', [StaffController::class,'addView'])->name('roles.add');
+
+
+        
 
 
         ##### pucahra ############

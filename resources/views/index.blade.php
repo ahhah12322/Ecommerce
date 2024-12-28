@@ -164,12 +164,12 @@
                                             
                                         </div>
                                         <div class="product-content-wrapper">
-                                            <div class="product-title-spreed">
+                                            {{-- <div class="product-title-spreed">
                                                 <h4><a
                                                         href="/chi-tiet/{{ $vehicle->id }}">{{ $vehicle->VehicleName }}</a>
                                                 </h4>
 
-                                            </div>
+                                            </div> --}}
                                             <div class="product-price">
                                                 <span>{{ number_format($vehicle->rental_price_per_day) }}đ/ngày</span>
                                             </div>

@@ -29,6 +29,8 @@ class User extends Authenticatable
         'role',
         'CCCD',
         'created_at',
+        'status', // Thêm cột status
+        'email_verified_at',
     ];
 
     /**

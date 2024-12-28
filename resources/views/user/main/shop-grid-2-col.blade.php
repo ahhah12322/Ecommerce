@@ -138,7 +138,17 @@
                                                     href="javascript:void(0)">
                                                     <i class="ti-heart"></i>
                                                 </a>
-                                                <a href="cart.html"><i class=" action-reload ti-shopping-cart"></i>
+                                                {{-- <a href="cart.html"><i class=" action-reload ti-shopping-cart"></i>
+                                                </a> --}}
+                                                <form id="checkout-form" method="POST" action="{{ route('checkout') }}" style="display: none;">
+                                                    @csrf
+                                                    <input type="hidden" name="vehicle_id" value="{{ $vehicle->id }}">
+                                                    {{-- <input type="hidden" name="user" value="{{ session('user') }}"> --}}
+                                                </form>
+                                                
+                                                <a class="action-reload btn btn-primary" title="Quick View" data-toggle="modal"
+                                                data-target="#exampleModal" href="javascript:void(0);" onclick="submitCheckoutForm()"> 
+                                                    <i class="ti-shopping-cart"></i>
                                                 </a>
                                             </div>
 
@@ -324,5 +334,53 @@
             window.location.href = url.toString();
         }
     }
+</script>
+<script>
+    function submitCheckoutForm() {
+        document.getElementById('checkout-form').submit();
+    }
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const addToCartButtons = document.querySelectorAll('.add-to-cart');
+
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const productId = this.getAttribute('data-product-id');
+
+                // Gửi AJAX request đến controller Laravel
+                fetch('/add-yeu-thich', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector(
+                                'meta[name="csrf-token"]').content,
+                        },
+                        body: JSON.stringify({
+                            product_id: productId
+                        })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Có lỗi từ server');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (!data.success) {
+                            alert(data.message); // Show server's error message
+                        } else {
+                            alert('Đã thêm sản phẩm vào giỏ hàng!');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Có lỗi xảy ra:', error.message);
+                        alert('Có lỗi xảy ra, vui lòng thử lại!');
+                    });
+
+            });
+        });
+    });
 </script>
 @include('user.app.footer')

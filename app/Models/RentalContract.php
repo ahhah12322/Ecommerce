@@ -19,10 +19,10 @@ class RentalContract extends Model
         'RentalStartDate', 
         'RentalEndDate', 
         'TotalCost', 
-        'Status',
+        'Status',   
         'StatusPayment',
         'payment_method',
-        'DateCreated',
+        'CreationDate',
     ];
 
     // Quan hệ với khách hàng

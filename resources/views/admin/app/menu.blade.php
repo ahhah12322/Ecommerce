@@ -215,6 +215,7 @@
                               <span class="nav-text"> Profile </span>
                           </a>
                       </li>
+                      @if (auth()->user()->role === 'admin')
 
                       <li class="nav-item">
                           <a class="nav-link menu-arrow" href="#sidebarRoles" data-bs-toggle="collapse"
@@ -228,18 +229,19 @@
                               <ul class="nav sub-navbar-nav">
                                   <ul class="nav sub-navbar-nav">
                                       <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="role-list.html">List</a>
+                                          <a class="sub-nav-link" href="{{ Route('roles.index')}}">List</a>
                                       </li>
                                       <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="role-edit.html">Edit</a>
+                                          <a class="sub-nav-link" href="{{ Route('roles.edit', ['id' => 15]) }}">Edit</a>
                                       </li>
                                       <li class="sub-nav-item">
-                                          <a class="sub-nav-link" href="role-add.html">Create</a>
+                                          <a class="sub-nav-link" href="{{ Route('roles.add')}}">Create</a>
                                       </li>
                                   </ul>
                               </ul>
                           </div>
                       </li>
+                      @endif
 
                       <li class="nav-item">
                           <a class="nav-link" href="pages-permissions.html">
